@@ -4,7 +4,7 @@ class WidgetDataStore {
     static let shared = WidgetDataStore()
     
     // Replace with your App Group identifier
-    let appGroupIdentifier = "group.com.hyder.ClashCompanion"
+    let appGroupIdentifier = "group.com.hyder.ClashStats"
     
     var sharedDefaults: UserDefaults? {
         UserDefaults(suiteName: appGroupIdentifier)

@@ -70,6 +70,7 @@ class APIClient {
         guard let url = URL(string: "\(baseURL)\(endpoint)") else { throw APIError.invalidURL }
         
         var request = URLRequest(url: url)
+        request.cachePolicy = .reloadIgnoringLocalCacheData
         request.setValue("true", forHTTPHeaderField: "Bypass-Tunnel-Reminder") // For localtunnel
         
         let (data, response) = try await URLSession.shared.data(for: request)

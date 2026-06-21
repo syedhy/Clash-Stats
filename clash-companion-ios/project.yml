@@ -1,21 +1,30 @@
-name: ClashCompanion
+name: ClashStats
 options:
-  bundleIdPrefix: com.clashcompanion
+  bundleIdPrefix: com.clashstats
   createIntermediateGroups: true
 targets:
-  ClashCompanion:
+  ClashStats:
     type: application
     platform: iOS
     deploymentTarget: "17.0"
     sources:
-      - ClashCompanionApp.swift
+      - ClashStatsApp.swift
       - Models
       - Networking
       - Storage
       - ViewModels
       - Views
+      - Fonts
       - Assets.xcassets
+    info:
+      path: ClashStats/Info.plist
+      properties:
+        UIAppFonts:
+          - Clash_Regular.otf
     settings:
+      PRODUCT_NAME: "Clash Stats"
+      INFOPLIST_KEY_CFBundleDisplayName: "Clash Stats"
+      INFOPLIST_KEY_CFBundleName: "Clash Stats"
       GENERATE_INFOPLIST_FILE: YES
       INFOPLIST_KEY_NSAppTransportSecurity: "<dict><key>NSAllowsArbitraryLoads</key><true/></dict>"
       INFOPLIST_KEY_UIRequiresFullScreen: YES
@@ -27,18 +36,20 @@ targets:
       CURRENT_PROJECT_VERSION: 1
       MARKETING_VERSION: 1.0
     dependencies:
-      - target: ClashCompanionWidgets
+      - target: ClashStatsWidgets
         embed: true
     entitlements:
-      path: ClashCompanion.entitlements
+      path: ClashStats.entitlements
 
-  ClashCompanionWidgets:
+  ClashStatsWidgets:
     type: app-extension
     platform: iOS
     deploymentTarget: "17.0"
     info:
-      path: ClashCompanionWidgets/Info.plist
+      path: ClashStatsWidgets/Info.plist
       properties:
+        UIAppFonts:
+          - Clash_Regular.otf
         NSExtension:
           NSExtensionPointIdentifier: com.apple.widgetkit-extension
     sources:
@@ -46,6 +57,7 @@ targets:
       - Models
       - Storage
       - Networking
+      - Fonts
     settings:
       GENERATE_INFOPLIST_FILE: YES
       INFOPLIST_KEY_NSAppTransportSecurity: "<dict><key>NSAllowsArbitraryLoads</key><true/></dict>"
@@ -54,8 +66,8 @@ targets:
       ENABLE_PREVIEWS: YES
       EXCLUDED_ARCHS: ""
       SKIP_INSTALL: YES
-      PRODUCT_BUNDLE_IDENTIFIER: com.clashcompanion.ClashCompanion.ClashCompanionWidgets
+      PRODUCT_BUNDLE_IDENTIFIER: com.clashstats.ClashStats.ClashStatsWidgets
       CURRENT_PROJECT_VERSION: 1
       MARKETING_VERSION: 1.0
     entitlements:
-      path: ClashCompanion.entitlements
+      path: ClashStats.entitlements

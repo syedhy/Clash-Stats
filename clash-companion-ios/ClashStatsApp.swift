@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct ClashCompanionApp: App {
+struct ClashStatsApp: App {
     @StateObject private var accountStore = AccountStore()
 
     var body: some Scene {

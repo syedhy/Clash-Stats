@@ -57,6 +57,19 @@ struct DashboardView: View {
                 } else {
                     ScrollView {
                         VStack(spacing: 20) {
+                            if viewModel.isOfflineMode {
+                                HStack {
+                                    Image(systemName: "wifi.slash")
+                                    Text("Server unreachable. Showing last known data.")
+                                        .font(.custom("Clash-Regular", size: 14, relativeTo: .footnote))
+                                }
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.red.opacity(0.8))
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                            }
+                            
                             if let summary = viewModel.summary {
                                 villageCard(summary: summary)
                                 if let completion = viewModel.completionProgress {

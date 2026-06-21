@@ -1,0 +1,614 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01EEC96219FF1D71A87049CE /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AEA2421DEBDB0EE6692E59 /* KeychainStore.swift */; };
+		0D7A26E50C47B878CE5DDE0F /* DonationWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F5CE68AE523AD1ED13F5CA /* DonationWidget.swift */; };
+		0FED0E6B23A6B4870895E1F6 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F90A8DDE530F2B504ACA0A /* DashboardViewModel.swift */; };
+		1B830F2BBF05D8A5D7A1E92C /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC83E15DE514BB8621BBF948 /* Models.swift */; };
+		31E5777F052D6ACAA37CC326 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02B0C4848716941C0A30F7E /* DashboardView.swift */; };
+		3317685742CFA1A1DC24D72F /* WidgetDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5C7A3F47EAF9A9AB494C0A /* WidgetDataStore.swift */; };
+		53E88DABE32B9421396D0B98 /* AccountStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4A22E6A62DFF2DDA207926 /* AccountStore.swift */; };
+		55C51B90D834622935508925 /* ClashStatsWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 6CEC10D143B776C7A36F7A81 /* ClashStatsWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5C3DFD625A41E43AA1621BBC /* AccountStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4A22E6A62DFF2DDA207926 /* AccountStore.swift */; };
+		60DA9B9CF64CA06267FAB908 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC83E15DE514BB8621BBF948 /* Models.swift */; };
+		6BFF09454A3C7849CB4C31F3 /* HeroLevelsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF8579BF6A45BF1ED7FF0F /* HeroLevelsWidget.swift */; };
+		6EA5C91D88E512C7E6A73A1C /* WarAttackWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC1D18296515BD1CEF403D6 /* WarAttackWidget.swift */; };
+		77B3B0C943E8A98BD3C2F3DA /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2544127E9268D190D555A3 /* OnboardingViewModel.swift */; };
+		7975B9BFB1FE272C413C93E5 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC9975EA521BD70F59F3FCB /* APIError.swift */; };
+		85A223396D2A004AF35B12F6 /* ClashStatsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DCC998CE50703EDA014D998 /* ClashStatsApp.swift */; };
+		8653024AC41CE95550C2A0AE /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11EF3563C63EE2BCA7BB539 /* APIClient.swift */; };
+		87D1733DE3FEB7951C39A95D /* Clash_Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = A720DAD71EE8E5F5861FC490 /* Clash_Regular.otf */; };
+		89E81DD54CF7B7CB178DAE6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4DF74F2BA1C1C80E0DB6B28 /* Assets.xcassets */; };
+		928C6AA430225BC41AA19B1D /* WidgetDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5C7A3F47EAF9A9AB494C0A /* WidgetDataStore.swift */; };
+		949056362D6B42D7921B1F01 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11EF3563C63EE2BCA7BB539 /* APIClient.swift */; };
+		9F5123356C2FCAEAD7C71E02 /* WidgetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE99A10BF001AA35BE8F4A9 /* WidgetProvider.swift */; };
+		B4042F58E44FD8E35F3B26E9 /* Clash_Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = A720DAD71EE8E5F5861FC490 /* Clash_Regular.otf */; };
+		BF1900C40E1DC6CA15700927 /* ClashStatsWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AA56E04F163E5E709349F4 /* ClashStatsWidgets.swift */; };
+		C5FDA5AFE85F31D8C3C03DFD /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C0E8F93B8C44D3947FC63C /* CardView.swift */; };
+		CE3CB350C7303A7883F74B39 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD728E343644FE626AF03608 /* OnboardingView.swift */; };
+		DA72C0C439231C6809994C09 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC9975EA521BD70F59F3FCB /* APIError.swift */; };
+		F6DDF45627791E2E7E6D02F2 /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AEA2421DEBDB0EE6692E59 /* KeychainStore.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EF904975E7006F1EE2134A61 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FC54B737DDD6DE588C9649E4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 86721CC99A54F8344CE1A947;
+			remoteInfo = ClashStatsWidgets;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		78E730385CEE52CAB2EC6C6D /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				55C51B90D834622935508925 /* ClashStatsWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		12EF8579BF6A45BF1ED7FF0F /* HeroLevelsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroLevelsWidget.swift; sourceTree = "<group>"; };
+		22F90A8DDE530F2B504ACA0A /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		3836B37873476B4D41871540 /* Clash Stats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Clash Stats.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3BC1D18296515BD1CEF403D6 /* WarAttackWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarAttackWidget.swift; sourceTree = "<group>"; };
+		6CEC10D143B776C7A36F7A81 /* ClashStatsWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ClashStatsWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DCC998CE50703EDA014D998 /* ClashStatsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashStatsApp.swift; sourceTree = "<group>"; };
+		81C0E8F93B8C44D3947FC63C /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		88AA56E04F163E5E709349F4 /* ClashStatsWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashStatsWidgets.swift; sourceTree = "<group>"; };
+		8D2544127E9268D190D555A3 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		A2F5CE68AE523AD1ED13F5CA /* DonationWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonationWidget.swift; sourceTree = "<group>"; };
+		A720DAD71EE8E5F5861FC490 /* Clash_Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Clash_Regular.otf; sourceTree = "<group>"; };
+		AC83E15DE514BB8621BBF948 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		BD728E343644FE626AF03608 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		C1AEA2421DEBDB0EE6692E59 /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
+		CE5C7A3F47EAF9A9AB494C0A /* WidgetDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataStore.swift; sourceTree = "<group>"; };
+		CEE99A10BF001AA35BE8F4A9 /* WidgetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetProvider.swift; sourceTree = "<group>"; };
+		CF4A22E6A62DFF2DDA207926 /* AccountStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountStore.swift; sourceTree = "<group>"; };
+		D4DF74F2BA1C1C80E0DB6B28 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E11EF3563C63EE2BCA7BB539 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		ECC9975EA521BD70F59F3FCB /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		F02B0C4848716941C0A30F7E /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		24DD25D60AED89E26D518633 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				81C0E8F93B8C44D3947FC63C /* CardView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		4C1F04BDB5C6BBED7030B405 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				BD728E343644FE626AF03608 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		7235DD7EA08104A4E5250166 /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				88AA56E04F163E5E709349F4 /* ClashStatsWidgets.swift */,
+				A2F5CE68AE523AD1ED13F5CA /* DonationWidget.swift */,
+				12EF8579BF6A45BF1ED7FF0F /* HeroLevelsWidget.swift */,
+				3BC1D18296515BD1CEF403D6 /* WarAttackWidget.swift */,
+				CEE99A10BF001AA35BE8F4A9 /* WidgetProvider.swift */,
+			);
+			path = Widgets;
+			sourceTree = "<group>";
+		};
+		8F3E5B699534BCC4BA9BA7D8 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				CF4A22E6A62DFF2DDA207926 /* AccountStore.swift */,
+				C1AEA2421DEBDB0EE6692E59 /* KeychainStore.swift */,
+				CE5C7A3F47EAF9A9AB494C0A /* WidgetDataStore.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		95D3767AEEC561373169A4B9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AC83E15DE514BB8621BBF948 /* Models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A23B15B5ED21DDF56C8B6759 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				22F90A8DDE530F2B504ACA0A /* DashboardViewModel.swift */,
+				8D2544127E9268D190D555A3 /* OnboardingViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		B3E868B3D4DBE4D14BAC643D /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				F02B0C4848716941C0A30F7E /* DashboardView.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		B8A2798BDDE68DD30802FC7D /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				A720DAD71EE8E5F5861FC490 /* Clash_Regular.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		E8E328B6F6F68F0C231CCA40 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3836B37873476B4D41871540 /* Clash Stats.app */,
+				6CEC10D143B776C7A36F7A81 /* ClashStatsWidgets.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F028FFA977B1089301891A23 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				E11EF3563C63EE2BCA7BB539 /* APIClient.swift */,
+				ECC9975EA521BD70F59F3FCB /* APIError.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		F185BB5392A42D50DC626995 = {
+			isa = PBXGroup;
+			children = (
+				D4DF74F2BA1C1C80E0DB6B28 /* Assets.xcassets */,
+				7DCC998CE50703EDA014D998 /* ClashStatsApp.swift */,
+				B8A2798BDDE68DD30802FC7D /* Fonts */,
+				95D3767AEEC561373169A4B9 /* Models */,
+				F028FFA977B1089301891A23 /* Networking */,
+				8F3E5B699534BCC4BA9BA7D8 /* Storage */,
+				A23B15B5ED21DDF56C8B6759 /* ViewModels */,
+				F5F9EFCB2E3BC023F771AEA4 /* Views */,
+				7235DD7EA08104A4E5250166 /* Widgets */,
+				E8E328B6F6F68F0C231CCA40 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F5F9EFCB2E3BC023F771AEA4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				24DD25D60AED89E26D518633 /* Components */,
+				B3E868B3D4DBE4D14BAC643D /* Dashboard */,
+				4C1F04BDB5C6BBED7030B405 /* Onboarding */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		86721CC99A54F8344CE1A947 /* ClashStatsWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FAB5C3CA795806B9D41C1A6A /* Build configuration list for PBXNativeTarget "ClashStatsWidgets" */;
+			buildPhases = (
+				6A5D4873DB54F4272C13C919 /* Sources */,
+				E2C7ADA6C8D727CA69EC4872 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ClashStatsWidgets;
+			packageProductDependencies = (
+			);
+			productName = ClashStatsWidgets;
+			productReference = 6CEC10D143B776C7A36F7A81 /* ClashStatsWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		B6C4EE8EBE9C2B38FEE1BBA5 /* ClashStats */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9118B76AF30956156FCD7E46 /* Build configuration list for PBXNativeTarget "ClashStats" */;
+			buildPhases = (
+				F5E1F46E2261A1DB16903DAD /* Sources */,
+				A3FA2300243066F4B25B39DA /* Resources */,
+				78E730385CEE52CAB2EC6C6D /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D3E0093941EF87D5B502CF19 /* PBXTargetDependency */,
+			);
+			name = ClashStats;
+			packageProductDependencies = (
+			);
+			productName = ClashStats;
+			productReference = 3836B37873476B4D41871540 /* Clash Stats.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FC54B737DDD6DE588C9649E4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					86721CC99A54F8344CE1A947 = {
+						ProvisioningStyle = Automatic;
+					};
+					B6C4EE8EBE9C2B38FEE1BBA5 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 0F77F1544710486B8F5C3D05 /* Build configuration list for PBXProject "ClashStats" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = F185BB5392A42D50DC626995;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = E8E328B6F6F68F0C231CCA40 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B6C4EE8EBE9C2B38FEE1BBA5 /* ClashStats */,
+				86721CC99A54F8344CE1A947 /* ClashStatsWidgets */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A3FA2300243066F4B25B39DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89E81DD54CF7B7CB178DAE6A /* Assets.xcassets in Resources */,
+				B4042F58E44FD8E35F3B26E9 /* Clash_Regular.otf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2C7ADA6C8D727CA69EC4872 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87D1733DE3FEB7951C39A95D /* Clash_Regular.otf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6A5D4873DB54F4272C13C919 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8653024AC41CE95550C2A0AE /* APIClient.swift in Sources */,
+				7975B9BFB1FE272C413C93E5 /* APIError.swift in Sources */,
+				53E88DABE32B9421396D0B98 /* AccountStore.swift in Sources */,
+				BF1900C40E1DC6CA15700927 /* ClashStatsWidgets.swift in Sources */,
+				0D7A26E50C47B878CE5DDE0F /* DonationWidget.swift in Sources */,
+				6BFF09454A3C7849CB4C31F3 /* HeroLevelsWidget.swift in Sources */,
+				F6DDF45627791E2E7E6D02F2 /* KeychainStore.swift in Sources */,
+				1B830F2BBF05D8A5D7A1E92C /* Models.swift in Sources */,
+				6EA5C91D88E512C7E6A73A1C /* WarAttackWidget.swift in Sources */,
+				3317685742CFA1A1DC24D72F /* WidgetDataStore.swift in Sources */,
+				9F5123356C2FCAEAD7C71E02 /* WidgetProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F5E1F46E2261A1DB16903DAD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				949056362D6B42D7921B1F01 /* APIClient.swift in Sources */,
+				DA72C0C439231C6809994C09 /* APIError.swift in Sources */,
+				5C3DFD625A41E43AA1621BBC /* AccountStore.swift in Sources */,
+				C5FDA5AFE85F31D8C3C03DFD /* CardView.swift in Sources */,
+				85A223396D2A004AF35B12F6 /* ClashStatsApp.swift in Sources */,
+				31E5777F052D6ACAA37CC326 /* DashboardView.swift in Sources */,
+				0FED0E6B23A6B4870895E1F6 /* DashboardViewModel.swift in Sources */,
+				01EEC96219FF1D71A87049CE /* KeychainStore.swift in Sources */,
+				60DA9B9CF64CA06267FAB908 /* Models.swift in Sources */,
+				CE3CB350C7303A7883F74B39 /* OnboardingView.swift in Sources */,
+				77B3B0C943E8A98BD3C2F3DA /* OnboardingViewModel.swift in Sources */,
+				928C6AA430225BC41AA19B1D /* WidgetDataStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D3E0093941EF87D5B502CF19 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 86721CC99A54F8344CE1A947 /* ClashStatsWidgets */;
+			targetProxy = EF904975E7006F1EE2134A61 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2B9F9B78D62B5690EC60352D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ClashStats.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K554G79ZZY;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ClashStats/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Clash Stats";
+				INFOPLIST_KEY_CFBundleName = "Clash Stats";
+				INFOPLIST_KEY_NSAppTransportSecurity = "<dict><key>NSAllowsArbitraryLoads</key><true/></dict>";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.clashstats.ClashStats;
+				PRODUCT_NAME = "Clash Stats";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		40981F8BFF77D8111B25E79C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		8019742F661E3DDA3DDEC965 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ClashStats.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K554G79ZZY;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ClashStats/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Clash Stats";
+				INFOPLIST_KEY_CFBundleName = "Clash Stats";
+				INFOPLIST_KEY_NSAppTransportSecurity = "<dict><key>NSAllowsArbitraryLoads</key><true/></dict>";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.clashstats.ClashStats;
+				PRODUCT_NAME = "Clash Stats";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		80A653AEE5B0647E8EB75912 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ClashStats.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K554G79ZZY;
+				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ClashStatsWidgets/Info.plist;
+				INFOPLIST_KEY_NSAppTransportSecurity = "<dict><key>NSAllowsArbitraryLoads</key><true/></dict>";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.clashstats.ClashStats.ClashStatsWidgets;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		81B017646378F3DF6E0F370A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		D77641AA03FCD172014EE0B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ClashStats.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K554G79ZZY;
+				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ClashStatsWidgets/Info.plist;
+				INFOPLIST_KEY_NSAppTransportSecurity = "<dict><key>NSAllowsArbitraryLoads</key><true/></dict>";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.clashstats.ClashStats.ClashStatsWidgets;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0F77F1544710486B8F5C3D05 /* Build configuration list for PBXProject "ClashStats" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				40981F8BFF77D8111B25E79C /* Debug */,
+				81B017646378F3DF6E0F370A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9118B76AF30956156FCD7E46 /* Build configuration list for PBXNativeTarget "ClashStats" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8019742F661E3DDA3DDEC965 /* Debug */,
+				2B9F9B78D62B5690EC60352D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		FAB5C3CA795806B9D41C1A6A /* Build configuration list for PBXNativeTarget "ClashStatsWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D77641AA03FCD172014EE0B9 /* Debug */,
+				80A653AEE5B0647E8EB75912 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FC54B737DDD6DE588C9649E4 /* Project object */;
+}
