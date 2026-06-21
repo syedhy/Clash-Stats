@@ -3,7 +3,7 @@ import Foundation
 class APIClient {
     static let shared = APIClient()
     
-    // Use http://192.168.1.17:3000/api for local dev on physical iPhone
+    // Use Mac's local IP for the absolute fastest connection on the same Wi-Fi
     // Replace with production URL when ready.
     var baseURL = "http://192.168.1.17:3000/api"
     
@@ -55,6 +55,14 @@ class APIClient {
     
     func fetchDonationStats(playerTag: String) async throws -> DonationStats {
         return try await fetch(endpoint: "/player/\(encode(playerTag))/donations")
+    }
+    
+    func fetchLaboratory(playerTag: String) async throws -> LaboratoryData {
+        return try await fetch(endpoint: "/player/\(encode(playerTag))/laboratory")
+    }
+
+    func fetchDashboard(playerTag: String) async throws -> DashboardResponse {
+        return try await fetch(endpoint: "/player/\(encode(playerTag))/dashboard")
     }
     
     private func fetch<T: Codable>(endpoint: String) async throws -> T {

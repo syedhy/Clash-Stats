@@ -8,6 +8,11 @@ struct PlayerSummary: Codable, Equatable {
     let bestTrophies: Int?
     let leagueName: String?
     let leagueIconUrl: String?
+    let attackWins: Int?
+    let defenseWins: Int?
+    let builderHallLevel: Int?
+    let builderBaseTrophies: Int?
+    let bestBuilderBaseTrophies: Int?
     let clanTag: String?
     let clanName: String?
     let clanBadgeUrl: String?
@@ -17,15 +22,54 @@ struct PlayerSummary: Codable, Equatable {
     let lastUpdated: String?
 }
 
+struct DashboardResponse: Codable {
+    let summary: PlayerSummary?
+    let heroes: [Hero]?
+    let donations: DonationStats?
+    let warStatus: WarStatus?
+    let laboratory: LaboratoryData?
+    let completionProgress: CompletionProgress?
+}
+
+struct CompletionProgress: Codable {
+    let heroes: Double
+    let laboratory: Double
+}
+
 struct Hero: Codable, Equatable, Hashable {
     let name: String
     let level: Int
     let maxLevel: Int
     let village: String
+    let equipment: [HeroEquipment]?
     
     var progress: Double {
         return maxLevel > 0 ? Double(level) / Double(maxLevel) : 0
     }
+}
+
+struct HeroEquipment: Codable, Equatable, Hashable {
+    let name: String
+    let level: Int
+    let maxLevel: Int
+    
+    var progress: Double {
+        return maxLevel > 0 ? Double(level) / Double(maxLevel) : 0
+    }
+}
+
+struct Troop: Codable, Equatable, Hashable {
+    let name: String
+    let level: Int
+    let maxLevel: Int
+    let village: String
+    let progress: Double
+}
+
+struct LaboratoryData: Codable, Equatable {
+    let troops: [Troop]
+    let spells: [Troop]
+    let pets: [Troop]
 }
 
 struct DonationStats: Codable, Equatable {
@@ -50,6 +94,7 @@ struct WarStatus: Codable, Equatable {
     let opponentStars: Int?
     let clanDestruction: Double?
     let opponentDestruction: Double?
+    let playerDestruction: Double?
     let phaseEndsAt: String?
     let warStartTime: String?
     let warEndTime: String?

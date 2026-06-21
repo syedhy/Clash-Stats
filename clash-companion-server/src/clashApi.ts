@@ -32,15 +32,30 @@ async function fetchFromApi(endpoint: string) {
   return response.json();
 }
 
+const inFlightRequests = new Map<string, Promise<any>>();
+
 export async function fetchWithCache(endpoint: string, ttlMs: number = DEFAULT_TTL) {
   const cached = cache.get(endpoint);
   if (cached && cached.expiry > Date.now()) {
     return cached.data;
   }
 
-  const data = await fetchFromApi(endpoint);
-  cache.set(endpoint, { data, expiry: Date.now() + ttlMs });
-  return data;
+  // If a request is already happening for this endpoint, wait for it!
+  if (inFlightRequests.has(endpoint)) {
+    return inFlightRequests.get(endpoint);
+  }
+
+  const promise = fetchFromApi(endpoint).then(data => {
+    cache.set(endpoint, { data, expiry: Date.now() + ttlMs });
+    inFlightRequests.delete(endpoint);
+    return data;
+  }).catch(error => {
+    inFlightRequests.delete(endpoint);
+    throw error;
+  });
+
+  inFlightRequests.set(endpoint, promise);
+  return promise;
 }
 
 export async function verifyPlayerToken(playerTag: string, token: string) {
@@ -69,10 +84,20 @@ export async function verifyPlayerToken(playerTag: string, token: string) {
 
 export async function getPlayer(playerTag: string) {
   const encodedTag = encodeTag(playerTag);
-  return fetchWithCache(`/players/${encodedTag}`, 15 * 60 * 1000); // 15 mins
+  return fetchWithCache(`/players/${encodedTag}`, 5 * 1000); // 5 seconds
 }
 
 export async function getClanWar(clanTag: string) {
   const encodedTag = encodeTag(clanTag);
   return fetchWithCache(`/clans/${encodedTag}/currentwar`, 5 * 60 * 1000); // 5 mins
+}
+
+export async function getLeagueGroup(clanTag: string) {
+  const encodedTag = encodeTag(clanTag);
+  return fetchWithCache(`/clans/${encodedTag}/currentwar/leaguegroup`, 5 * 60 * 1000); // 5 mins
+}
+
+export async function getClanWarLeagueWar(warTag: string) {
+  const encodedTag = encodeTag(warTag);
+  return fetchWithCache(`/clanwarleagues/wars/${encodedTag}`, 5 * 60 * 1000); // 5 mins
 }

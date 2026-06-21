@@ -41,15 +41,15 @@ struct ClashTimelineProvider: TimelineProvider {
     
     // Mocks for placeholder/preview
     private func mockWarStatus() -> WarStatus {
-        WarStatus(state: "inWar", title: "Battle Day", clanName: "Night Riders", opponentName: "Enemy Clan", teamSize: 15, attacksPerMember: 2, attacksUsed: 1, attacksLeft: 1, playerStars: 2, clanStars: 34, opponentStars: 31, clanDestruction: 87.4, opponentDestruction: 82.1, phaseEndsAt: ISO8601DateFormatter().string(from: Date().addingTimeInterval(5*3600)), warStartTime: nil, warEndTime: nil, lastUpdated: nil)
+        WarStatus(state: "inWar", title: "Battle Day", clanName: "Night Riders", opponentName: "Enemy Clan", teamSize: 15, attacksPerMember: 2, attacksUsed: 1, attacksLeft: 1, playerStars: 2, clanStars: 34, opponentStars: 31, clanDestruction: 87.4, opponentDestruction: 82.1, playerDestruction: 75.0, phaseEndsAt: ISO8601DateFormatter().string(from: Date().addingTimeInterval(5*3600)), warStartTime: nil, warEndTime: nil, lastUpdated: nil)
     }
     
     private func mockHeroes() -> [Hero] {
         [
-            Hero(name: "Archer Queen", level: 78, maxLevel: 95, village: "home"),
-            Hero(name: "Barbarian King", level: 74, maxLevel: 95, village: "home"),
-            Hero(name: "Grand Warden", level: 52, maxLevel: 70, village: "home"),
-            Hero(name: "Royal Champion", level: 28, maxLevel: 45, village: "home")
+            Hero(name: "Archer Queen", level: 78, maxLevel: 95, village: "home", equipment: nil),
+            Hero(name: "Barbarian King", level: 74, maxLevel: 95, village: "home", equipment: nil),
+            Hero(name: "Grand Warden", level: 52, maxLevel: 70, village: "home", equipment: nil),
+            Hero(name: "Royal Champion", level: 28, maxLevel: 45, village: "home", equipment: nil)
         ]
     }
     
