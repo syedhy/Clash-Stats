@@ -88,6 +88,7 @@ struct WarStatus: Codable, Equatable {
     let clanName: String?
     let opponentName: String?
     let teamSize: Int?
+    let isSpectator: Bool?
     let attacksPerMember: Int?
     let attacksUsed: Int?
     let attacksLeft: Int?
