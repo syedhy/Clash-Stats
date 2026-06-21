@@ -41,6 +41,7 @@ struct Hero: Codable, Equatable, Hashable {
     let level: Int
     let maxLevel: Int
     let village: String
+    let iconUrl: String?
     let equipment: [HeroEquipment]?
     
     var progress: Double {
@@ -64,6 +65,7 @@ struct Troop: Codable, Equatable, Hashable {
     let maxLevel: Int
     let village: String
     let progress: Double
+    let iconUrl: String?
 }
 
 struct LaboratoryData: Codable, Equatable {
@@ -99,4 +101,13 @@ struct WarStatus: Codable, Equatable {
     let warStartTime: String?
     let warEndTime: String?
     let lastUpdated: String?
+}
+
+extension WarStatus {
+    var parsedPhaseEndsAt: Date? {
+        guard let phaseEndsAt = phaseEndsAt else { return nil }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd'T'HHmmss.SSSZ"
+        return formatter.date(from: phaseEndsAt)
+    }
 }

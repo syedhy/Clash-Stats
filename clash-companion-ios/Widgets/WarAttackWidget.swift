@@ -36,7 +36,7 @@ struct WarAttackWidgetView: View {
                     .font(.caption)
                     .foregroundColor(.secondary)
                 
-                if let endsAt = war.phaseEndsAt, let date = ISO8601DateFormatter().date(from: endsAt) {
+                if let date = war.parsedPhaseEndsAt {
                     Text(date, style: .timer)
                         .font(.caption)
                         .foregroundColor(.red)
@@ -66,7 +66,7 @@ struct WarAttackWidgetView: View {
                         .font(.subheadline)
                         .bold()
                     
-                    if let endsAt = war.phaseEndsAt, let date = ISO8601DateFormatter().date(from: endsAt) {
+                    if let date = war.parsedPhaseEndsAt {
                         HStack(spacing: 4) {
                             Text("Ends in:")
                             Text(date, style: .timer).foregroundColor(.red).bold()

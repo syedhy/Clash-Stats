@@ -11,6 +11,7 @@ class AccountStore: ObservableObject {
            let tag = String(data: data, encoding: .utf8) {
             self.playerTag = tag
             self.isLoggedIn = true
+            WidgetDataStore.shared.playerTag = tag
         }
     }
     
@@ -20,6 +21,7 @@ class AccountStore: ObservableObject {
             DispatchQueue.main.async {
                 self.playerTag = tag
                 self.isLoggedIn = true
+                WidgetDataStore.shared.playerTag = tag
             }
         }
     }
@@ -29,6 +31,7 @@ class AccountStore: ObservableObject {
         DispatchQueue.main.async {
             self.playerTag = nil
             self.isLoggedIn = false
+            WidgetDataStore.shared.playerTag = nil
         }
     }
 }

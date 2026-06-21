@@ -22,4 +22,14 @@ class WidgetDataStore {
         }
         return nil
     }
+    
+    var playerTag: String? {
+        get { sharedDefaults?.string(forKey: "playerTag") }
+        set { sharedDefaults?.set(newValue, forKey: "playerTag") }
+    }
+    
+    var backendURL: String? {
+        get { sharedDefaults?.string(forKey: "backendURL") }
+        set { sharedDefaults?.set(newValue, forKey: "backendURL") }
+    }
 }

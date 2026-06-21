@@ -3,9 +3,10 @@ import Foundation
 class APIClient {
     static let shared = APIClient()
     
-    // Use Mac's local IP for the absolute fastest connection on the same Wi-Fi
-    // Replace with production URL when ready.
-    var baseURL = "http://192.168.1.17:3000/api"
+    // Use backendURL from WidgetDataStore if set, otherwise fallback to default
+    var baseURL: String {
+        WidgetDataStore.shared.backendURL ?? "http://192.168.1.17:3000/api"
+    }
     
     private init() {}
     
