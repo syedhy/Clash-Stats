@@ -18,7 +18,7 @@ struct HeroLevelsWidgetView: View {
                     smallHeroView(heroes)
                 }
             } else {
-                Text("No Heroes").font(.caption).foregroundColor(.secondary)
+                Text("No Heroes").font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).foregroundColor(.secondary)
             }
         }
     }
@@ -32,16 +32,16 @@ struct HeroLevelsWidgetView: View {
         
         return VStack(alignment: .leading, spacing: 6) {
             Image(systemName: "crown.fill").foregroundColor(.orange)
-            Text("Heroes").font(.headline)
+            Text("Heroes").font(.custom("Clash-Regular", size: 17, relativeTo: .headline))
             
             Text("\(progress)% maxed")
-                .font(.subheadline)
+                .font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline))
                 .bold()
             
             if let w = weakest {
                 let shortName = w.name.components(separatedBy: " ").compactMap { $0.first }.map { String($0) }.joined()
                 Text("\(shortName) needs \(w.maxLevel - w.level) lvls")
-                    .font(.caption2)
+                    .font(.custom("Clash-Regular", size: 11, relativeTo: .caption2))
                     .foregroundColor(.secondary)
             }
         }
@@ -55,7 +55,7 @@ struct HeroLevelsWidgetView: View {
                     let shortName = hero.name.components(separatedBy: " ").compactMap { $0.first }.map { String($0) }.joined()
                     VStack(alignment: .leading) {
                         Text("\(shortName) \(hero.level)/\(hero.maxLevel)")
-                            .font(.caption2)
+                            .font(.custom("Clash-Regular", size: 11, relativeTo: .caption2))
                             .bold()
                             .lineLimit(1)
                         ProgressView(value: hero.progress)
@@ -70,13 +70,13 @@ struct HeroLevelsWidgetView: View {
     
     private func largeHeroView(_ heroes: [Hero]) -> some View {
         VStack(alignment: .leading) {
-            Text("Heroes").font(.headline).foregroundColor(.orange)
+            Text("Heroes").font(.custom("Clash-Regular", size: 17, relativeTo: .headline)).foregroundColor(.orange)
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
                 ForEach(heroes, id: \.name) { hero in
                     let shortName = hero.name.components(separatedBy: " ").compactMap { $0.first }.map { String($0) }.joined()
                     VStack(alignment: .leading) {
                         Text("\(shortName) \(hero.level)/\(hero.maxLevel)")
-                            .font(.caption)
+                            .font(.custom("Clash-Regular", size: 12, relativeTo: .caption))
                             .bold()
                         ProgressView(value: hero.progress)
                             .progressViewStyle(LinearProgressViewStyle(tint: .orange))
@@ -95,6 +95,7 @@ struct HeroLevelsWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: ClashTimelineProvider()) { entry in
             HeroLevelsWidgetView(entry: entry)
+                .environment(\.font, .custom("Clash-Regular", size: 14, relativeTo: .body))
                 .containerBackground(Color(UIColor.systemGroupedBackground), for: .widget)
         }
         .configurationDisplayName("Hero Levels")

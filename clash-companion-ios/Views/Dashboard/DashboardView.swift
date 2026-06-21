@@ -7,63 +7,89 @@ struct DashboardView: View {
     
     var body: some View {
         NavigationView {
-            ScrollView {
-                VStack(spacing: 20) {
-                    if let summary = viewModel.summary {
-                        villageCard(summary: summary)
-                        if let completion = viewModel.completionProgress {
-                            CompletionProgressCard(progress: completion)
+            Group {
+                if viewModel.showLoader && viewModel.summary == nil {
+                    VStack(spacing: 24) {
+                        Image("ArcherQueenLoader")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 250, height: 250)
+                        
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .accentColor))
+                            .scaleEffect(1.8)
+                            .padding(.bottom, 8)
+                        
+                        Text("The Queen is searching...")
+                            .font(.custom("Clash-Regular", size: 22))
+                            .foregroundColor(.primary)
+                        
+                        Text("Hold your crossbow, this will just take a moment.")
+                            .font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline))
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if let error = viewModel.errorMessage, viewModel.summary == nil {
+                    VStack(spacing: 16) {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .font(.system(size: 50))
+                            .foregroundColor(.red)
+                        Text("Failed to load dashboard")
+                            .font(.custom("Clash-Regular", size: 20, relativeTo: .title3))
+                            .fontWeight(.bold)
+                        Text(error)
+                            .font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline))
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                        Button("Try Again") {
+                            if let tag = accountStore.playerTag {
+                                Task { await viewModel.fetchData(for: tag) }
+                            }
                         }
-                        seasonStatsCard(summary: summary)
-                        builderBaseCard(summary: summary)
-                    } else if viewModel.isLoading {
-                        ProgressView().padding()
-                    } else if let error = viewModel.errorMessage {
-                        VStack(spacing: 10) {
-                            Image(systemName: "exclamationmark.triangle.fill")
-                                .font(.system(size: 40))
-                                .foregroundColor(.red)
-                            Text("Failed to load dashboard")
-                                .font(.headline)
-                            Text(error)
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                                .multilineTextAlignment(.center)
-                            Button("Try Again") {
-                                if let tag = accountStore.playerTag {
-                                    Task { await viewModel.fetchData(for: tag) }
+                        .buttonStyle(.borderedProminent)
+                        .padding(.top, 10)
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    ScrollView {
+                        VStack(spacing: 20) {
+                            if let summary = viewModel.summary {
+                                villageCard(summary: summary)
+                                if let completion = viewModel.completionProgress {
+                                    CompletionProgressCard(progress: completion)
+                                }
+                                seasonStatsCard(summary: summary)
+                                builderBaseCard(summary: summary)
+                            }
+                            
+                            if let war = viewModel.warStatus {
+                                warCard(war: war)
+                            }
+                            
+                            if let heroes = viewModel.heroes {
+                                heroesCard(heroes: heroes)
+                            }
+                            
+                            if let donations = viewModel.donations {
+                                donationCard(donations: donations)
+                            }
+                            
+                            if let lab = viewModel.laboratory {
+                                if !lab.troops.isEmpty || !lab.spells.isEmpty {
+                                    laboratoryCard(lab: lab)
+                                }
+                                if !lab.pets.isEmpty {
+                                    petsCard(pets: lab.pets)
                                 }
                             }
-                            .padding(.top, 5)
                         }
                         .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color(.secondarySystemBackground))
-                        .cornerRadius(12)
-                    }
-                    
-                    if let war = viewModel.warStatus {
-                        warCard(war: war)
-                    }
-                    
-                    if let heroes = viewModel.heroes {
-                        heroesCard(heroes: heroes)
-                    }
-                    
-                    if let donations = viewModel.donations {
-                        donationCard(donations: donations)
-                    }
-                    
-                    if let lab = viewModel.laboratory {
-                        if !lab.troops.isEmpty || !lab.spells.isEmpty {
-                            laboratoryCard(lab: lab)
-                        }
-                        if !lab.pets.isEmpty {
-                            petsCard(pets: lab.pets)
-                        }
                     }
                 }
-                .padding()
             }
             .navigationTitle("Dashboard")
             .navigationBarItems(
@@ -85,6 +111,16 @@ struct DashboardView: View {
                 }
             }
             .onAppear {
+                for family in UIFont.familyNames {
+                    print("\(family)")
+                    for name in UIFont.fontNames(forFamilyName: family) {
+                        print("   \(name)")
+                    }
+                }
+                if let customFont = UIFont(name: "Clash-Regular", size: 24) {
+                    UINavigationBar.appearance().largeTitleTextAttributes = [.font: customFont]
+                    UINavigationBar.appearance().titleTextAttributes = [.font: customFont]
+                }
                 if let tag = accountStore.playerTag, viewModel.summary == nil {
                     Task {
                         await viewModel.fetchData(for: tag)
@@ -99,8 +135,8 @@ struct DashboardView: View {
             VStack(alignment: .leading, spacing: 8) {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(summary.name).font(.title2).bold()
-                        Text(summary.tag).font(.caption).foregroundColor(.gray)
+                        Text(summary.name).font(.custom("Clash-Regular", size: 22, relativeTo: .title2)).bold()
+                        Text(summary.tag).font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).foregroundColor(.gray)
                     }
                     Spacer()
                     if let leagueUrl = summary.leagueIconUrl, let url = URL(string: leagueUrl) {
@@ -117,7 +153,7 @@ struct DashboardView: View {
                             .frame(width: 40, height: 40)
                             
                             if let leagueName = summary.leagueName {
-                                Text(leagueName).font(.caption2).foregroundColor(.secondary)
+                                Text(leagueName).font(.custom("Clash-Regular", size: 11, relativeTo: .caption2)).foregroundColor(.secondary)
                             }
                         }
                     }
@@ -128,9 +164,9 @@ struct DashboardView: View {
                     Text("🏆 \(summary.trophies ?? 0)")
                 }
                 if let clanName = summary.clanName {
-                    Text("Clan: \(clanName)").font(.subheadline).foregroundColor(.secondary)
+                    Text("Clan: \(clanName)").font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline)).foregroundColor(.secondary)
                 } else {
-                    Text("No Clan").font(.subheadline).foregroundColor(.secondary)
+                    Text("No Clan").font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline)).foregroundColor(.secondary)
                 }
             }
         }
@@ -141,14 +177,14 @@ struct DashboardView: View {
             HStack {
                 VStack {
                     Text("⚔️ \(summary.attackWins ?? 0)")
-                        .font(.title3).bold()
-                    Text("Attack Wins").font(.caption).foregroundColor(.secondary)
+                        .font(.custom("Clash-Regular", size: 20, relativeTo: .title3)).bold()
+                    Text("Attack Wins").font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).foregroundColor(.secondary)
                 }
                 Spacer()
                 VStack {
                     Text("🛡️ \(summary.defenseWins ?? 0)")
-                        .font(.title3).bold()
-                    Text("Defense Wins").font(.caption).foregroundColor(.secondary)
+                        .font(.custom("Clash-Regular", size: 20, relativeTo: .title3)).bold()
+                    Text("Defense Wins").font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).foregroundColor(.secondary)
                 }
             }
         }
@@ -163,7 +199,7 @@ struct DashboardView: View {
                     Text("🏆 \(summary.builderBaseTrophies ?? 0)")
                 }
                 if let best = summary.bestBuilderBaseTrophies {
-                    Text("Best: \(best)").font(.caption).foregroundColor(.secondary)
+                    Text("Best: \(best)").font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).foregroundColor(.secondary)
                 }
             }
         }
@@ -179,7 +215,7 @@ struct DashboardView: View {
                     Text("Your clan's war log is private.")
                         .foregroundColor(.secondary)
                 } else {
-                    Text(war.title).font(.headline).foregroundColor(war.state == "inCWL" ? .purple : .orange)
+                    Text(war.title).font(.custom("Clash-Regular", size: 17, relativeTo: .headline)).foregroundColor(war.state == "inCWL" ? .purple : .orange)
                     Text("\(war.clanName ?? "Clan") vs \(war.opponentName ?? "Opponent")")
                     
                     if !war.title.contains("Prep") {
@@ -193,17 +229,17 @@ struct DashboardView: View {
                         Divider()
                         
                         // Personal Performance
-                        Text("Your Contribution").font(.subheadline).bold().foregroundColor(.cyan)
+                        Text("Your Contribution").font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline)).bold().foregroundColor(.cyan)
                         HStack {
                             VStack(alignment: .leading) {
                                 Text("Attacks: \(war.attacksUsed ?? 0)/\(war.attacksPerMember ?? 0)")
-                                    .font(.caption)
+                                    .font(.custom("Clash-Regular", size: 12, relativeTo: .caption))
                             }
                             Spacer()
                             VStack(alignment: .trailing) {
                                 Text("⭐ \(war.playerStars ?? 0)").bold()
                                 Text(String(format: "%.1f%% Dest", war.playerDestruction ?? 0))
-                                    .font(.caption).foregroundColor(.secondary)
+                                    .font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).foregroundColor(.secondary)
                             }
                         }
                     } else {
@@ -213,7 +249,7 @@ struct DashboardView: View {
                     
                     if let date = war.parsedPhaseEndsAt {
                         Text("Ends: \(date, style: .timer)")
-                            .font(.caption)
+                            .font(.custom("Clash-Regular", size: 12, relativeTo: .caption))
                             .foregroundColor(.red)
                     }
                 }
@@ -241,9 +277,9 @@ struct DashboardView: View {
                                 }
                                 .frame(width: 40, height: 40)
                             }
-                            Text(hero.name).font(.caption).bold().lineLimit(1)
+                            Text(hero.name).font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).bold().lineLimit(1)
                             Text("Lvl \(hero.level)/\(hero.maxLevel)")
-                                .font(.caption2)
+                                .font(.custom("Clash-Regular", size: 11, relativeTo: .caption2))
                                 .foregroundColor(.secondary)
                             ProgressView(value: hero.progress)
                                 .progressViewStyle(LinearProgressViewStyle(tint: .orange))
@@ -269,20 +305,20 @@ struct DashboardView: View {
     private func donationCard(donations: DonationStats) -> some View {
         CardView(title: "Troop Karma", icon: "gift.fill") {
             VStack(alignment: .leading, spacing: 8) {
-                Text(donations.mood).font(.headline).foregroundColor(.green)
+                Text(donations.mood).font(.custom("Clash-Regular", size: 17, relativeTo: .headline)).foregroundColor(.green)
                 HStack {
                     VStack(alignment: .leading) {
-                        Text("Donated").font(.caption).foregroundColor(.gray)
+                        Text("Donated").font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).foregroundColor(.gray)
                         Text("\(donations.donations)").bold()
                     }
                     Spacer()
                     VStack(alignment: .trailing) {
-                        Text("Received").font(.caption).foregroundColor(.gray)
+                        Text("Received").font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).foregroundColor(.gray)
                         Text("\(donations.donationsReceived)").bold()
                     }
                 }
                 Text("Balance: \(donations.balance > 0 ? "+" : "")\(donations.balance)")
-                    .font(.caption)
+                    .font(.custom("Clash-Regular", size: 12, relativeTo: .caption))
                     .foregroundColor(donations.balance >= 0 ? .green : .red)
             }
         }
@@ -291,7 +327,7 @@ struct DashboardView: View {
     private func laboratoryCard(lab: LaboratoryData) -> some View {
         CardView(title: "Laboratory", icon: "flask.fill") {
             VStack(alignment: .leading, spacing: 10) {
-                Text("Troops").font(.subheadline).bold()
+                Text("Troops").font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline)).bold()
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 15) {
                         ForEach(lab.troops, id: \.name) { troop in
@@ -304,14 +340,14 @@ struct DashboardView: View {
                                     }
                                         .frame(width: 30, height: 30)
                                 }
-                                Text(troop.name).font(.caption).lineLimit(1).frame(width: 60)
-                                Text("Lvl \(troop.level)").font(.caption2).foregroundColor(troop.level == troop.maxLevel ? .orange : .secondary)
+                                Text(troop.name).font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).lineLimit(1).frame(width: 60)
+                                Text("Lvl \(troop.level)").font(.custom("Clash-Regular", size: 11, relativeTo: .caption2)).foregroundColor(troop.level == troop.maxLevel ? .orange : .secondary)
                             }
                         }
                     }
                 }
                 
-                Text("Spells").font(.subheadline).bold().padding(.top, 5)
+                Text("Spells").font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline)).bold().padding(.top, 5)
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 15) {
                         ForEach(lab.spells, id: \.name) { spell in
@@ -324,8 +360,8 @@ struct DashboardView: View {
                                     }
                                         .frame(width: 30, height: 30)
                                 }
-                                Text(spell.name).font(.caption).lineLimit(1).frame(width: 60)
-                                Text("Lvl \(spell.level)").font(.caption2).foregroundColor(spell.level == spell.maxLevel ? .cyan : .secondary)
+                                Text(spell.name).font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).lineLimit(1).frame(width: 60)
+                                Text("Lvl \(spell.level)").font(.custom("Clash-Regular", size: 11, relativeTo: .caption2)).foregroundColor(spell.level == spell.maxLevel ? .cyan : .secondary)
                             }
                         }
                     }
@@ -348,8 +384,8 @@ struct DashboardView: View {
                                 }
                                     .frame(width: 30, height: 30)
                             }
-                            Text(pet.name).font(.caption).lineLimit(1).frame(width: 60)
-                            Text("Lvl \(pet.level)").font(.caption2).foregroundColor(pet.level == pet.maxLevel ? .purple : .secondary)
+                            Text(pet.name).font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).lineLimit(1).frame(width: 60)
+                            Text("Lvl \(pet.level)").font(.custom("Clash-Regular", size: 11, relativeTo: .caption2)).foregroundColor(pet.level == pet.maxLevel ? .purple : .secondary)
                         }
                     }
                 }
@@ -363,13 +399,13 @@ struct PetHouseCard: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Pet House").font(.headline)
+            Text("Pet House").font(.custom("Clash-Regular", size: 17, relativeTo: .headline))
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 15) {
                     ForEach(pets, id: \.name) { pet in
                         VStack {
-                            Text(pet.name).font(.caption).lineLimit(1).frame(width: 70)
-                            Text("Lvl \(pet.level)").font(.caption2).foregroundColor(pet.level == pet.maxLevel ? .purple : .secondary)
+                            Text(pet.name).font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).lineLimit(1).frame(width: 70)
+                            Text("Lvl \(pet.level)").font(.custom("Clash-Regular", size: 11, relativeTo: .caption2)).foregroundColor(pet.level == pet.maxLevel ? .purple : .secondary)
                         }
                     }
                 }
@@ -417,13 +453,13 @@ struct CircularProgressRing: View {
                     .animation(.linear, value: percentage)
                 
                 Text(String(format: "%.0f%%", percentage))
-                    .font(.caption)
+                    .font(.custom("Clash-Regular", size: 12, relativeTo: .caption))
                     .bold()
             }
             .frame(width: 50, height: 50)
             
             Text(label)
-                .font(.caption2)
+                .font(.custom("Clash-Regular", size: 11, relativeTo: .caption2))
                 .foregroundColor(.secondary)
         }
     }
