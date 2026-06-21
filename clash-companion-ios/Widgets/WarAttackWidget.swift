@@ -18,7 +18,21 @@ struct WarAttackWidgetView: View {
             } else {
                 Text("Open app to load").font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).foregroundColor(.secondary)
             }
+            
+            VStack {
+                Spacer()
+                Text("Updated at \(formattedDate)")
+                    .font(.system(size: 8))
+                    .foregroundColor(.secondary)
+                    .padding(.bottom, 4)
+            }
         }
+    }
+    
+    private var formattedDate: String {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        return formatter.string(from: entry.date)
     }
     
     private func smallWarView(_ war: WarStatus) -> some View {
@@ -31,7 +45,19 @@ struct WarAttackWidgetView: View {
                 .font(.custom("Clash-Regular", size: 17, relativeTo: .headline))
                 .minimumScaleFactor(0.8)
             
-            if war.state == "inWar" || war.state == "inCWL" || war.state == "preparation" {
+            if war.state == "private" {
+                Text("Clan log is private")
+                    .font(.custom("Clash-Regular", size: 12, relativeTo: .caption))
+                    .foregroundColor(.secondary)
+            } else if war.state == "notInWar" {
+                Text("Currently not in a war")
+                    .font(.custom("Clash-Regular", size: 12, relativeTo: .caption))
+                    .foregroundColor(.secondary)
+            } else if war.isSpectator == true {
+                Text("Spectator")
+                    .font(.custom("Clash-Regular", size: 12, relativeTo: .caption))
+                    .foregroundColor(.secondary)
+            } else if war.state == "inWar" || war.state == "inCWL" || war.state == "preparation" {
                 Text("\(war.attacksLeft ?? 0) attacks left")
                     .font(.custom("Clash-Regular", size: 12, relativeTo: .caption))
                     .foregroundColor(.secondary)
@@ -59,7 +85,19 @@ struct WarAttackWidgetView: View {
                     Text(war.title).font(.custom("Clash-Regular", size: 17, relativeTo: .headline))
                 }
                 
-                if war.state == "inWar" || (war.state == "inCWL" && !war.title.contains("Prep")) {
+                if war.state == "private" {
+                    Text("Clan log is private")
+                        .font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline))
+                        .foregroundColor(.secondary)
+                } else if war.state == "notInWar" {
+                    Text("Currently not in a war")
+                        .font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline))
+                        .foregroundColor(.secondary)
+                } else if war.isSpectator == true {
+                    Text("You are a spectator in this war")
+                        .font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline))
+                        .foregroundColor(.secondary)
+                } else if war.state == "inWar" || (war.state == "inCWL" && !war.title.contains("Prep")) {
                     Text("\(war.attacksUsed ?? 0) / \(war.attacksPerMember ?? 0) attacks used")
                         .font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline))
                     Text("\(war.clanStars ?? 0) ⭐ vs \(war.opponentStars ?? 0) ⭐")
