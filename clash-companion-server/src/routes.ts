@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { MOCK_PLAYER_SUMMARY, MOCK_HEROES, MOCK_DONATIONS, MOCK_WAR_STATUS } from './mockData';
-import { getPlayer, getClanWar, verifyPlayerToken } from './clashApi';
+import { getPlayer, getClanWar, verifyPlayerToken, getLeagueGroup } from './clashApi';
 
 const router = Router();
 
@@ -70,6 +70,11 @@ router.get('/player/:playerTag/summary', async (req: Request, res: Response): Pr
       bestTrophies: player.bestTrophies,
       leagueName: player.league?.name,
       leagueIconUrl: player.league?.iconUrls?.small,
+      attackWins: player.attackWins,
+      defenseWins: player.defenseWins,
+      builderHallLevel: player.builderHallLevel,
+      builderBaseTrophies: player.builderBaseTrophies,
+      bestBuilderBaseTrophies: player.bestBuilderBaseTrophies,
       clanTag: player.clan?.tag,
       clanName: player.clan?.name,
       clanBadgeUrl: player.clan?.badgeUrls?.small,
@@ -98,9 +103,47 @@ router.get('/player/:playerTag/heroes', async (req: Request, res: Response): Pro
       level: h.level,
       maxLevel: h.maxLevel,
       village: h.village,
-      progress: h.level / h.maxLevel
+      progress: h.level / h.maxLevel,
+      equipment: h.equipment?.map((eq: any) => ({
+        name: eq.name,
+        level: eq.level,
+        maxLevel: eq.maxLevel
+      })) || []
     }));
     res.json({ heroes });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.get('/player/:playerTag/laboratory', async (req: Request, res: Response): Promise<void> => {
+  const playerTag = req.params.playerTag as string;
+
+  if (useMock) {
+    res.json({ troops: [], spells: [] }); // Need mock data if needed, but we can return empty for mock
+    return;
+  }
+
+  try {
+    const player = await getPlayer(playerTag);
+    const mapItem = (item: any) => ({
+      name: item.name,
+      level: item.level,
+      maxLevel: item.maxLevel,
+      village: item.village,
+      progress: item.level / item.maxLevel
+    });
+    
+    const troops = (player.troops || []).map(mapItem);
+    const spells = (player.spells || []).map(mapItem);
+    
+    // Separate Hero Pets from normal home village troops
+    const petNames = new Set(["L.A.S.S.I", "Mighty Yak", "Electro Owl", "Unicorn", "Diggy", "Frosty", "Poison Lizard", "Phoenix", "Spirit Fox", "Angry Jelly", "Sneezy", "Greedy Raven"]);
+    
+    const regularTroops = troops.filter((t: any) => !petNames.has(t.name));
+    const pets = troops.filter((t: any) => petNames.has(t.name));
+    
+    res.json({ troops: regularTroops, spells, pets });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -170,6 +213,100 @@ router.get('/player/:playerTag/war', async (req: Request, res: Response): Promis
     }
 
     if (war.state === 'notInWar') {
+      try {
+        const { getClanWarLeagueWar } = require('./clashApi');
+        const leagueGroup = await getLeagueGroup(player.clan.tag);
+        
+        if (leagueGroup && leagueGroup.state && leagueGroup.state !== 'notInWar') {
+          const validRounds = leagueGroup.rounds.filter((r: any) => !r.warTags.includes('#0'));
+          console.log(`Checking ${validRounds.length} valid rounds for CWL...`);
+          const allOurWars = [];
+          
+          for (const round of validRounds) {
+            const wars = await Promise.all(
+              round.warTags.map((tag: string) => getClanWarLeagueWar(tag).catch(() => null))
+            );
+            const ourWar = wars.find((w: any) => w && (w.clan?.tag === player.clan.tag || w.opponent?.tag === player.clan.tag));
+            if (ourWar) {
+              allOurWars.push(ourWar);
+            }
+          }
+
+          let activeWar = allOurWars.find(w => w.state === 'inWar');
+          if (!activeWar) activeWar = allOurWars.find(w => w.state === 'preparation');
+          if (!activeWar) activeWar = allOurWars.sort((a, b) => new Date(b.endTime).getTime() - new Date(a.endTime).getTime())[0]; // newest warEnded
+
+          console.log(`Final selected CWL war state: ${activeWar?.state}`);
+
+          if (activeWar) {
+            // CWL sometimes puts our clan in the 'opponent' field! Let's normalize it.
+            let myClan = activeWar.clan;
+            let enemyClan = activeWar.opponent;
+            if (activeWar.opponent?.tag === player.clan.tag) {
+              myClan = activeWar.opponent;
+              enemyClan = activeWar.clan;
+            }
+
+            const member = myClan?.members?.find((m: any) => m.tag === player.tag);
+            const attacksUsed = member ? (member.attacks?.length || 0) : 0;
+            const attacksPerMember = activeWar.attacksPerMember || 1; // CWL is usually 1 attack
+            const attacksLeft = member ? attacksPerMember - attacksUsed : 0;
+
+            let title = "CWL: Prep Day";
+            let phaseEndsAt = activeWar.startTime;
+            if (activeWar.state === 'inWar') {
+              title = "Clan War League";
+              phaseEndsAt = activeWar.endTime;
+            } else if (activeWar.state === 'warEnded') {
+              title = "CWL: War Ended";
+              phaseEndsAt = activeWar.endTime;
+            }
+
+            const calcStars = (c: any) => {
+              if (c?.stars !== undefined) return c.stars;
+              if (!c?.members) return 0;
+              return c.members.reduce((sum: number, m: any) => {
+                return sum + (m.attacks?.reduce((s: number, a: any) => s + a.stars, 0) || 0);
+              }, 0);
+            };
+
+            const calcDestruction = (c: any) => {
+              if (c?.destructionPercentage !== undefined) return c.destructionPercentage;
+              if (!c?.members || c.members.length === 0) return 0;
+              const totalDestruction = c.members.reduce((sum: number, m: any) => {
+                return sum + (m.attacks?.reduce((s: number, a: any) => Math.max(s, a.destructionPercentage), 0) || 0);
+              }, 0);
+              // CWL destruction is total destruction / (number of possible attacks or board size?)
+              // Actually, API usually provides destructionPercentage if there are attacks.
+              return totalDestruction / activeWar.teamSize;
+            };
+
+            res.json({
+              state: "inCWL",
+              title,
+              clanName: myClan?.name,
+              opponentName: enemyClan?.name,
+              teamSize: activeWar.teamSize,
+              attacksPerMember,
+              attacksUsed,
+              attacksLeft,
+              playerStars: member ? member.attacks?.reduce((sum: number, a: any) => sum + a.stars, 0) : 0,
+              clanStars: calcStars(myClan),
+              opponentStars: calcStars(enemyClan),
+              clanDestruction: calcDestruction(myClan),
+              opponentDestruction: calcDestruction(enemyClan),
+              phaseEndsAt,
+              warStartTime: activeWar.startTime,
+              warEndTime: activeWar.endTime,
+              lastUpdated: new Date().toISOString()
+            });
+            return;
+          }
+        }
+      } catch (cwlError) {
+        console.error("CWL Error:", cwlError);
+      }
+
       res.json({ state: "notInWar", title: "No War", lastUpdated: new Date().toISOString() });
       return;
     }
@@ -210,6 +347,173 @@ router.get('/player/:playerTag/war', async (req: Request, res: Response): Promis
       lastUpdated: new Date().toISOString()
     });
 
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.get('/player/:playerTag/dashboard', async (req: Request, res: Response): Promise<void> => {
+  const playerTag = req.params.playerTag as string;
+  try {
+    const player = await getPlayer(playerTag);
+    
+    // Summary
+    const summary = {
+      tag: player.tag, name: player.name, townHallLevel: player.townHallLevel,
+      trophies: player.trophies, bestTrophies: player.bestTrophies,
+      leagueName: player.league?.name, clanTag: player.clan?.tag,
+      clanName: player.clan?.name, donations: player.donations,
+      donationsReceived: player.donationsReceived,
+      builderHallLevel: player.builderHallLevel,
+      versusTrophies: player.versusTrophies, bestVersusTrophies: player.bestVersusTrophies,
+      attackWins: player.attackWins, defenseWins: player.defenseWins,
+      heroes: (player.heroes || []).filter((h: any) => h.village === 'home').map((h: any) => ({
+        name: h.name, level: h.level, maxLevel: h.maxLevel, village: h.village,
+        equipment: h.equipment ? h.equipment.map((e: any) => ({ name: e.name, level: e.level, maxLevel: e.maxLevel })) : undefined
+      })),
+      lastUpdated: new Date().toISOString()
+    };
+    
+    // Heroes
+    const heroesList = (player.heroes || []).filter((h: any) => h.village === 'home').map((h: any) => ({
+      name: h.name, level: h.level, maxLevel: h.maxLevel, village: h.village, progress: h.maxLevel > 0 ? h.level / h.maxLevel : 0,
+      equipment: h.equipment ? h.equipment.map((e: any) => ({ name: e.name, level: e.level, maxLevel: e.maxLevel })) : undefined
+    }));
+    
+    // Donations
+    const d = player.donations || 0;
+    const r = player.donationsReceived || 0;
+    const ratio = r > 0 ? Number((d / r).toFixed(2)) : d > 0 ? d : 0;
+    let mood = "Neutral";
+    if (d > r * 2 && d > 100) mood = "Generous Chief";
+    else if (r > d * 2 && r > 100) mood = "Leech";
+    else if (d > 500) mood = "Active Donator";
+    const donations = { donations: d, donationsReceived: r, balance: d - r, ratio, mood };
+    
+    // Laboratory
+    const mapItem = (t: any) => ({ 
+      name: t.name, 
+      level: t.level, 
+      maxLevel: t.maxLevel,
+      village: t.village || 'home',
+      progress: t.maxLevel > 0 ? t.level / t.maxLevel : 0 
+    });
+    const troopsData = (player.troops || []).filter((t: any) => t.village === 'home').map(mapItem);
+    const spellsData = (player.spells || []).map(mapItem);
+    const petNames = new Set(["L.A.S.S.I", "Mighty Yak", "Electro Owl", "Unicorn", "Diggy", "Frosty", "Poison Lizard", "Phoenix", "Spirit Fox", "Angry Jelly", "Sneezy", "Greedy Raven"]);
+    const regularTroops = troopsData.filter((t: any) => !petNames.has(t.name));
+    const petsData = troopsData.filter((t: any) => petNames.has(t.name));
+    const laboratory = { troops: regularTroops, spells: spellsData, pets: petsData };
+    
+    // Completion Progress Calculation
+    let heroCurrent = 0, heroMax = 0;
+    heroesList.forEach((h: any) => {
+      heroCurrent += h.level;
+      heroMax += h.maxLevel;
+    });
+    
+    let labCurrent = 0, labMax = 0;
+    const allLabItems = [...regularTroops, ...spellsData, ...petsData];
+    allLabItems.forEach((item: any) => {
+      labCurrent += item.level;
+      labMax += item.maxLevel;
+    });
+
+    const completionProgress = {
+      heroes: heroMax > 0 ? (heroCurrent / heroMax) : 0,
+      laboratory: labMax > 0 ? (labCurrent / labMax) : 0
+    };
+    
+    // War Status
+    let warStatus = null;
+    if (player.clan?.tag) {
+      try {
+        const cw = await getClanWar(player.clan.tag);
+        if (cw.state !== 'notInWar') {
+          const attacksPerMember = cw.attacksPerMember || 1;
+          const member = cw.clan?.members?.find((m: any) => m.tag === playerTag);
+          warStatus = {
+            state: cw.state, title: cw.state === 'inWar' ? 'Battle Day' : cw.state === 'preparation' ? 'Preparation Day' : 'War Ended',
+            clanName: cw.clan?.name || 'Your Clan', opponentName: cw.opponent?.name || 'Opponent', teamSize: cw.teamSize,
+            attacksPerMember, attacksUsed: member?.attacks?.length || 0, attacksLeft: member ? (attacksPerMember - (member.attacks?.length || 0)) : 0,
+            playerStars: member?.attacks?.reduce((sum: number, a: any) => sum + a.stars, 0) || 0, 
+            playerDestruction: member?.attacks?.length ? (member.attacks.reduce((sum: number, a: any) => sum + a.destructionPercentage, 0) / member.attacks.length) : 0,
+            clanStars: cw.clan?.stars || 0,
+            opponentStars: cw.opponent?.stars || 0, clanDestruction: cw.clan?.destructionPercentage || 0, opponentDestruction: cw.opponent?.destructionPercentage || 0,
+            phaseEndsAt: cw.endTime, warStartTime: cw.startTime, warEndTime: cw.endTime, lastUpdated: new Date().toISOString()
+          };
+        } else {
+          // Check CWL
+          const { getClanWarLeagueWar } = require('./clashApi');
+          const leagueGroup = await getLeagueGroup(player.clan.tag);
+          if (leagueGroup && leagueGroup.state && leagueGroup.state !== 'notInWar') {
+            const validRounds = leagueGroup.rounds.filter((r: any) => !r.warTags.includes('#0'));
+            const allOurWars = [];
+            for (const round of validRounds) {
+              const wars = await Promise.all(
+                round.warTags.map((tag: string) => getClanWarLeagueWar(tag).catch(() => null))
+              );
+              const ourWar = wars.find((w: any) => w && (w.clan?.tag === player.clan.tag || w.opponent?.tag === player.clan.tag));
+              if (ourWar) allOurWars.push(ourWar);
+            }
+            let activeWar = allOurWars.find(w => w.state === 'inWar');
+            if (!activeWar) activeWar = allOurWars.find(w => w.state === 'preparation');
+            if (!activeWar) activeWar = allOurWars.sort((a, b) => new Date(b.endTime).getTime() - new Date(a.endTime).getTime())[0];
+            
+            if (activeWar) {
+              let myClan = activeWar.clan;
+              let enemyClan = activeWar.opponent;
+              if (activeWar.opponent?.tag === player.clan.tag) {
+                myClan = activeWar.opponent;
+                enemyClan = activeWar.clan;
+              }
+              const member = myClan?.members?.find((m: any) => m.tag === player.tag);
+              const attacksUsed = member ? (member.attacks?.length || 0) : 0;
+              const attacksPerMember = activeWar.attacksPerMember || 1;
+              const attacksLeft = member ? attacksPerMember - attacksUsed : 0;
+              
+              let title = "CWL: Prep Day";
+              let phaseEndsAt = activeWar.startTime;
+              if (activeWar.state === 'inWar') { title = "Clan War League"; phaseEndsAt = activeWar.endTime; }
+              else if (activeWar.state === 'warEnded') { title = "CWL: War Ended"; phaseEndsAt = activeWar.endTime; }
+              
+              const calcStars = (c: any) => {
+                if (c?.stars !== undefined) return c.stars;
+                if (!c?.members) return 0;
+                return c.members.reduce((sum: number, m: any) => sum + (m.attacks?.reduce((s: number, a: any) => s + a.stars, 0) || 0), 0);
+              };
+              const calcDestruction = (c: any) => {
+                if (c?.destructionPercentage !== undefined) return c.destructionPercentage;
+                if (!c?.members || c.members.length === 0) return 0;
+                const totalDestruction = c.members.reduce((sum: number, m: any) => sum + (m.attacks?.reduce((s: number, a: any) => Math.max(s, a.destructionPercentage), 0) || 0), 0);
+                return totalDestruction / activeWar.teamSize;
+              };
+              
+              warStatus = {
+                state: "inCWL", title, clanName: myClan?.name, opponentName: enemyClan?.name, teamSize: activeWar.teamSize,
+                attacksPerMember, attacksUsed, attacksLeft,
+                playerStars: member ? member.attacks?.reduce((sum: number, a: any) => sum + a.stars, 0) : 0,
+                playerDestruction: (member && member.attacks && member.attacks.length > 0) ? (member.attacks.reduce((sum: number, a: any) => sum + a.destructionPercentage, 0) / member.attacks.length) : 0,
+                clanStars: calcStars(myClan), opponentStars: calcStars(enemyClan),
+                clanDestruction: calcDestruction(myClan), opponentDestruction: calcDestruction(enemyClan),
+                phaseEndsAt, warStartTime: activeWar.startTime, warEndTime: activeWar.endTime, lastUpdated: new Date().toISOString()
+              };
+            }
+          } else {
+            warStatus = { state: "notInWar", title: "No War", lastUpdated: new Date().toISOString() };
+          }
+        }
+      } catch (e) {}
+    }
+    
+    res.json({
+      summary,
+      heroes: heroesList,
+      donations,
+      laboratory,
+      warStatus,
+      completionProgress
+    });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }

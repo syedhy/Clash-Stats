@@ -10,7 +10,9 @@ struct HeroLevelsWidgetView: View {
             Color(UIColor.systemGroupedBackground)
             
             if let heroes = entry.heroes, !heroes.isEmpty {
-                if family == .systemMedium {
+                if family == .systemLarge {
+                    largeHeroView(heroes)
+                } else if family == .systemMedium {
                     mediumHeroView(heroes)
                 } else {
                     smallHeroView(heroes)
@@ -48,11 +50,32 @@ struct HeroLevelsWidgetView: View {
     
     private func mediumHeroView(_ heroes: [Hero]) -> some View {
         HStack {
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-                ForEach(heroes.prefix(4), id: \.name) { hero in
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                ForEach(heroes.prefix(6), id: \.name) { hero in
                     let shortName = hero.name.components(separatedBy: " ").compactMap { $0.first }.map { String($0) }.joined()
                     VStack(alignment: .leading) {
-                        Text("\(shortName) \(hero.level) / \(hero.maxLevel)")
+                        Text("\(shortName) \(hero.level)/\(hero.maxLevel)")
+                            .font(.caption2)
+                            .bold()
+                            .lineLimit(1)
+                        ProgressView(value: hero.progress)
+                            .progressViewStyle(LinearProgressViewStyle(tint: .orange))
+                    }
+                }
+            }
+            Spacer()
+        }
+        .padding()
+    }
+    
+    private func largeHeroView(_ heroes: [Hero]) -> some View {
+        VStack(alignment: .leading) {
+            Text("Heroes").font(.headline).foregroundColor(.orange)
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                ForEach(heroes, id: \.name) { hero in
+                    let shortName = hero.name.components(separatedBy: " ").compactMap { $0.first }.map { String($0) }.joined()
+                    VStack(alignment: .leading) {
+                        Text("\(shortName) \(hero.level)/\(hero.maxLevel)")
                             .font(.caption)
                             .bold()
                         ProgressView(value: hero.progress)
@@ -76,6 +99,6 @@ struct HeroLevelsWidget: Widget {
         }
         .configurationDisplayName("Hero Levels")
         .description("Track your overall hero upgrade progress.")
-        .supportedFamilies([.systemSmall, .systemMedium])
+        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
     }
 }

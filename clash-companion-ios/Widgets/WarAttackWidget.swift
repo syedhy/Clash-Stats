@@ -31,7 +31,7 @@ struct WarAttackWidgetView: View {
                 .font(.headline)
                 .minimumScaleFactor(0.8)
             
-            if war.state == "inWar" || war.state == "preparation" {
+            if war.state == "inWar" || war.state == "inCWL" || war.state == "preparation" {
                 Text("\(war.attacksLeft ?? 0) attacks left")
                     .font(.caption)
                     .foregroundColor(.secondary)
@@ -59,7 +59,7 @@ struct WarAttackWidgetView: View {
                     Text(war.title).font(.headline)
                 }
                 
-                if war.state == "inWar" {
+                if war.state == "inWar" || (war.state == "inCWL" && !war.title.contains("Prep")) {
                     Text("\(war.attacksUsed ?? 0) / \(war.attacksPerMember ?? 0) attacks used")
                         .font(.subheadline)
                     Text("\(war.clanStars ?? 0) ⭐ vs \(war.opponentStars ?? 0) ⭐")

@@ -7,6 +7,8 @@ class DashboardViewModel: ObservableObject {
     @Published var heroes: [Hero]?
     @Published var donations: DonationStats?
     @Published var warStatus: WarStatus?
+    @Published var laboratory: LaboratoryData?
+    @Published var completionProgress: CompletionProgress?
     
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
@@ -16,23 +18,20 @@ class DashboardViewModel: ObservableObject {
         errorMessage = nil
         
         do {
-            async let fetchSummary = APIClient.shared.fetchPlayerSummary(playerTag: tag)
-            async let fetchHeroes = APIClient.shared.fetchHeroLevels(playerTag: tag)
-            async let fetchDonations = APIClient.shared.fetchDonationStats(playerTag: tag)
-            async let fetchWar = APIClient.shared.fetchWarStatus(playerTag: tag)
+            let dashboardData = try await APIClient.shared.fetchDashboard(playerTag: tag)
             
-            let (summaryRes, heroesRes, donationsRes, warRes) = try await (fetchSummary, fetchHeroes, fetchDonations, fetchWar)
-            
-            self.summary = summaryRes
-            self.heroes = heroesRes
-            self.donations = donationsRes
-            self.warStatus = warRes
+            self.summary = dashboardData.summary
+            self.heroes = dashboardData.heroes
+            self.donations = dashboardData.donations
+            self.warStatus = dashboardData.warStatus
+            self.laboratory = dashboardData.laboratory
+            self.completionProgress = dashboardData.completionProgress
             
             // Save to App Group for Widgets
-            WidgetDataStore.shared.save(summaryRes, forKey: "widget_player_summary")
-            WidgetDataStore.shared.save(heroesRes, forKey: "widget_heroes")
-            WidgetDataStore.shared.save(donationsRes, forKey: "widget_donations")
-            WidgetDataStore.shared.save(warRes, forKey: "widget_war_status")
+            if let sum = dashboardData.summary { WidgetDataStore.shared.save(sum, forKey: "widget_player_summary") }
+            if let hrs = dashboardData.heroes { WidgetDataStore.shared.save(hrs, forKey: "widget_heroes") }
+            if let dns = dashboardData.donations { WidgetDataStore.shared.save(dns, forKey: "widget_donations") }
+            if let war = dashboardData.warStatus { WidgetDataStore.shared.save(war, forKey: "widget_war_status") }
             
             #if canImport(WidgetKit)
             WidgetCenter.shared.reloadAllTimelines()
