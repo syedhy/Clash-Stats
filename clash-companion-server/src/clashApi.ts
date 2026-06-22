@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-const API_BASE = 'https://api.clashofclans.com/v1';
+const API_BASE = 'https://cocproxy.royaleapi.dev/v1';
 const API_KEY = process.env.COC_API_KEY;
 
 // Simple in-memory cache
