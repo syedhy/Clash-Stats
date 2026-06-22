@@ -53,7 +53,7 @@ struct ClashTimelineProvider: TimelineProvider {
             
             let entry = ClashWidgetEntry(date: Date(), warStatus: warStatus, heroes: heroes, donations: donations)
             
-            let nextRefresh = Calendar.current.date(byAdding: .minute, value: 30, to: Date())!
+            let nextRefresh = Calendar.current.date(byAdding: .minute, value: 2, to: Date())!
             let timeline = Timeline(entries: [entry], policy: .after(nextRefresh))
             
             completion(timeline)
