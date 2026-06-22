@@ -20,7 +20,21 @@ struct HeroLevelsWidgetView: View {
             } else {
                 Text("No Heroes").font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).foregroundColor(.secondary)
             }
+            
+            VStack {
+                Spacer()
+                Text("Updated at \(formattedDate)")
+                    .font(.system(size: 8))
+                    .foregroundColor(.secondary)
+                    .padding(.bottom, 4)
+            }
         }
+    }
+    
+    private var formattedDate: String {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        return formatter.string(from: entry.date)
     }
     
     private func smallHeroView(_ heroes: [Hero]) -> some View {
