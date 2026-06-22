@@ -5,7 +5,7 @@ class APIClient {
     
     // Use backendURL from WidgetDataStore if set, otherwise fallback to default
     var baseURL: String {
-        WidgetDataStore.shared.backendURL ?? "http://192.168.1.17:3000/api"
+        WidgetDataStore.shared.backendURL ?? "https://clash-stats-6mvy.onrender.com/api"
     }
     
     private init() {}
