@@ -53,14 +53,16 @@ struct WarAttackWidgetView: View {
                 Text("Currently not in a war")
                     .font(.custom("Clash-Regular", size: 12, relativeTo: .caption))
                     .foregroundColor(.secondary)
-            } else if war.isSpectator == true {
-                Text("Spectator")
-                    .font(.custom("Clash-Regular", size: 12, relativeTo: .caption))
-                    .foregroundColor(.secondary)
             } else if war.state == "inWar" || war.state == "inCWL" || war.state == "preparation" {
-                Text("\(war.attacksLeft ?? 0) attacks left")
-                    .font(.custom("Clash-Regular", size: 12, relativeTo: .caption))
-                    .foregroundColor(.secondary)
+                if war.isSpectator == true {
+                    Text("Spectator")
+                        .font(.custom("Clash-Regular", size: 12, relativeTo: .caption))
+                        .foregroundColor(.secondary)
+                } else {
+                    Text("\(war.attacksLeft ?? 0) attacks left")
+                        .font(.custom("Clash-Regular", size: 12, relativeTo: .caption))
+                        .foregroundColor(.secondary)
+                }
                 
                 if let date = war.parsedPhaseEndsAt {
                     Text(date, style: .timer)
@@ -93,13 +95,15 @@ struct WarAttackWidgetView: View {
                     Text("Currently not in a war")
                         .font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline))
                         .foregroundColor(.secondary)
-                } else if war.isSpectator == true {
-                    Text("You are a spectator in this war")
-                        .font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline))
-                        .foregroundColor(.secondary)
                 } else if war.state == "inWar" || (war.state == "inCWL" && !war.title.contains("Prep")) {
-                    Text("\(war.attacksUsed ?? 0) / \(war.attacksPerMember ?? 0) attacks used")
-                        .font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline))
+                    if war.isSpectator == true {
+                        Text("You are a spectator")
+                            .font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline))
+                            .foregroundColor(.secondary)
+                    } else {
+                        Text("\(war.attacksUsed ?? 0) / \(war.attacksPerMember ?? 0) attacks used")
+                            .font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline))
+                    }
                     Text("\(war.clanStars ?? 0) ⭐ vs \(war.opponentStars ?? 0) ⭐")
                         .font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline))
                         .bold()
