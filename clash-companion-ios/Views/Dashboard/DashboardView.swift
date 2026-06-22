@@ -242,17 +242,24 @@ struct DashboardView: View {
                         Divider()
                         
                         // Personal Performance
-                        Text("Your Contribution").font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline)).bold().foregroundColor(.cyan)
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text("Attacks: \(war.attacksUsed ?? 0)/\(war.attacksPerMember ?? 0)")
-                                    .font(.custom("Clash-Regular", size: 12, relativeTo: .caption))
-                            }
-                            Spacer()
-                            VStack(alignment: .trailing) {
-                                Text("⭐ \(war.playerStars ?? 0)").bold()
-                                Text(String(format: "%.1f%% Dest", war.playerDestruction ?? 0))
-                                    .font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).foregroundColor(.secondary)
+                        if war.isSpectator == true {
+                            Text("Spectator").font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline)).bold().foregroundColor(.gray)
+                            Text("You are not on the roster for this war.")
+                                .font(.custom("Clash-Regular", size: 12, relativeTo: .caption))
+                                .foregroundColor(.secondary)
+                        } else {
+                            Text("Your Contribution").font(.custom("Clash-Regular", size: 15, relativeTo: .subheadline)).bold().foregroundColor(.cyan)
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text("Attacks: \(war.attacksUsed ?? 0)/\(war.attacksPerMember ?? 0)")
+                                        .font(.custom("Clash-Regular", size: 12, relativeTo: .caption))
+                                }
+                                Spacer()
+                                VStack(alignment: .trailing) {
+                                    Text("⭐ \(war.playerStars ?? 0)").bold()
+                                    Text(String(format: "%.1f%% Dest", war.playerDestruction ?? 0))
+                                        .font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).foregroundColor(.secondary)
+                                }
                             }
                         }
                     } else {

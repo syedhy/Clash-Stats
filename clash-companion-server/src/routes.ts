@@ -208,6 +208,7 @@ async function resolveWarStatus(playerTag: string, player: any): Promise<any> {
     return {
       state: cw.state, title: cw.state === 'inWar' ? 'Battle Day' : cw.state === 'preparation' ? 'Preparation Day' : 'War Ended',
       clanName: cw.clan?.name || 'Your Clan', opponentName: cw.opponent?.name || 'Opponent', teamSize: cw.teamSize,
+      isSpectator: !member,
       attacksPerMember, attacksUsed: member?.attacks?.length || 0, attacksLeft: member ? (attacksPerMember - (member.attacks?.length || 0)) : 0,
       playerStars: member?.attacks?.reduce((sum: number, a: any) => sum + a.stars, 0) || 0, 
       playerDestruction: member?.attacks?.length ? (member.attacks.reduce((sum: number, a: any) => sum + a.destructionPercentage, 0) / member.attacks.length) : 0,
@@ -262,6 +263,7 @@ async function resolveWarStatus(playerTag: string, player: any): Promise<any> {
       
       return {
         state: "inCWL", title, clanName: myClan?.name, opponentName: enemyClan?.name, teamSize: activeWar.teamSize,
+        isSpectator: !member,
         attacksPerMember, attacksUsed, attacksLeft,
         playerStars: member ? member.attacks?.reduce((sum: number, a: any) => sum + a.stars, 0) : 0,
         playerDestruction: (member && member.attacks && member.attacks.length > 0) ? (member.attacks.reduce((sum: number, a: any) => sum + a.destructionPercentage, 0) / member.attacks.length) : 0,
