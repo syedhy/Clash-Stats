@@ -14,7 +14,11 @@ app.use(express.json());
 // Routes
 app.use('/api', apiRoutes);
 
-// Health check
+// Health check and Root ping
+app.get('/', (req, res) => {
+  res.send('Clash Companion API is awake and running!');
+});
+
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
