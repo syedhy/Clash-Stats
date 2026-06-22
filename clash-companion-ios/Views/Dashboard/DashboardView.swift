@@ -45,7 +45,7 @@ struct DashboardView: View {
                             .multilineTextAlignment(.center)
                             .padding(.horizontal)
                         Button("Try Again") {
-                            if let tag = accountStore.playerTag {
+                            if let tag = accountStore.activeAccount?.tag {
                                 Task { await viewModel.fetchData(for: tag) }
                             }
                         }
@@ -119,22 +119,23 @@ struct DashboardView: View {
             }
             .background(Color(UIColor.systemGroupedBackground).edgesIgnoringSafeArea(.all))
             .refreshable {
-                if let tag = accountStore.playerTag {
+                if let tag = accountStore.activeAccount?.tag {
                     await viewModel.fetchData(for: tag)
                 }
             }
             .onAppear {
-                for family in UIFont.familyNames {
-                    print("\(family)")
-                    for name in UIFont.fontNames(forFamilyName: family) {
-                        print("   \(name)")
-                    }
-                }
                 if let customFont = UIFont(name: "Clash-Regular", size: 24) {
                     UINavigationBar.appearance().largeTitleTextAttributes = [.font: customFont]
                     UINavigationBar.appearance().titleTextAttributes = [.font: customFont]
                 }
-                if let tag = accountStore.playerTag, viewModel.summary == nil {
+                if let tag = accountStore.activeAccount?.tag, viewModel.summary == nil {
+                    Task {
+                        await viewModel.fetchData(for: tag)
+                    }
+                }
+            }
+            .onChange(of: accountStore.activeAccount?.tag) { oldTag, newTag in
+                if let tag = newTag {
                     Task {
                         await viewModel.fetchData(for: tag)
                     }
@@ -485,29 +486,4 @@ struct CircularProgressRing: View {
     }
 }
 
-struct SettingsView: View {
-    @Environment(\.presentationMode) var presentationMode
-    @State private var backendURL: String = WidgetDataStore.shared.backendURL ?? "http://192.168.1.17:3000/api"
-    
-    var body: some View {
-        NavigationView {
-            Form {
-                Section(header: Text("Network Settings"), footer: Text("The IP address of the Mac running the Node.js backend. Keep the /api suffix.")) {
-                    TextField("Backend URL", text: $backendURL)
-                        .keyboardType(.URL)
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
-                }
-                
-                Button("Save") {
-                    WidgetDataStore.shared.backendURL = backendURL
-                    presentationMode.wrappedValue.dismiss()
-                }
-            }
-            .navigationTitle("Settings")
-            .navigationBarItems(trailing: Button("Close") {
-                presentationMode.wrappedValue.dismiss()
-            })
-        }
-    }
-}
+

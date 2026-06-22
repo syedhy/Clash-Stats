@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct OnboardingView: View {
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var accountStore: AccountStore
     @StateObject private var viewModel = OnboardingViewModel()
     @State private var step = 1
@@ -68,6 +69,10 @@ struct OnboardingView: View {
                         
                         SecureField("API Token", text: $viewModel.apiToken)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
+                            
+                        TextField("Nickname (Optional)", text: $viewModel.nickname)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .disableAutocorrection(true)
                         
                         if let error = viewModel.errorMessage {
                             Text(error)
@@ -86,6 +91,9 @@ struct OnboardingView: View {
                     } else {
                         Task {
                             await viewModel.connect(accountStore: accountStore)
+                            if viewModel.errorMessage == nil {
+                                presentationMode.wrappedValue.dismiss()
+                            }
                         }
                     }
                 }) {
@@ -112,6 +120,9 @@ struct OnboardingView: View {
             }
             .navigationBarHidden(true)
             .background(Color(UIColor.systemGroupedBackground).edgesIgnoringSafeArea(.all))
+            .navigationBarItems(trailing: Button("Cancel") {
+                presentationMode.wrappedValue.dismiss()
+            }.opacity(accountStore.isLoggedIn ? 1 : 0))
         }
     }
 }

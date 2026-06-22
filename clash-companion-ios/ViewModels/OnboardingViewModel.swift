@@ -6,6 +6,7 @@ class OnboardingViewModel: ObservableObject {
     @Published var apiToken: String = ""
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
+    @Published var nickname: String = ""
     
     func connect(accountStore: AccountStore) async {
         guard !playerTag.isEmpty, !apiToken.isEmpty else {
@@ -17,8 +18,13 @@ class OnboardingViewModel: ObservableObject {
         errorMessage = nil
         
         do {
-            let _ = try await APIClient.shared.verifyPlayer(playerTag: playerTag, token: apiToken)
-            accountStore.login(tag: playerTag)
+            let player = try await APIClient.shared.verifyPlayer(playerTag: playerTag, token: apiToken)
+            let newAccount = SavedAccount(
+                tag: playerTag,
+                inGameName: player.name,
+                nickname: nickname.isEmpty ? nil : nickname
+            )
+            accountStore.login(account: newAccount)
         } catch {
             errorMessage = error.localizedDescription
         }
