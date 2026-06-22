@@ -1,0 +1,61 @@
+name: ClashCompanion
+options:
+  bundleIdPrefix: com.clashcompanion
+  createIntermediateGroups: true
+targets:
+  ClashCompanion:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - ClashCompanionApp.swift
+      - Models
+      - Networking
+      - Storage
+      - ViewModels
+      - Views
+      - Assets.xcassets
+    settings:
+      GENERATE_INFOPLIST_FILE: YES
+      INFOPLIST_KEY_NSAppTransportSecurity: "<dict><key>NSAllowsArbitraryLoads</key><true/></dict>"
+      INFOPLIST_KEY_UIRequiresFullScreen: YES
+      CODE_SIGN_STYLE: Automatic
+      DEVELOPMENT_TEAM: ""
+      ENABLE_PREVIEWS: YES
+      INFOPLIST_KEY_UILaunchScreen_Generation: YES
+      INFOPLIST_KEY_UIApplicationSceneManifest_Generation: NO
+      CURRENT_PROJECT_VERSION: 1
+      MARKETING_VERSION: 1.0
+    dependencies:
+      - target: ClashCompanionWidgets
+        embed: true
+    entitlements:
+      path: ClashCompanion.entitlements
+
+  ClashCompanionWidgets:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: "17.0"
+    info:
+      path: ClashCompanionWidgets/Info.plist
+      properties:
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    sources:
+      - Widgets
+      - Models
+      - Storage
+      - Networking
+    settings:
+      GENERATE_INFOPLIST_FILE: YES
+      INFOPLIST_KEY_NSAppTransportSecurity: "<dict><key>NSAllowsArbitraryLoads</key><true/></dict>"
+      CODE_SIGN_STYLE: Automatic
+      DEVELOPMENT_TEAM: ""
+      ENABLE_PREVIEWS: YES
+      EXCLUDED_ARCHS: ""
+      SKIP_INSTALL: YES
+      PRODUCT_BUNDLE_IDENTIFIER: com.clashcompanion.ClashCompanion.ClashCompanionWidgets
+      CURRENT_PROJECT_VERSION: 1
+      MARKETING_VERSION: 1.0
+    entitlements:
+      path: ClashCompanion.entitlements
