@@ -12,11 +12,13 @@ class DashboardViewModel: ObservableObject {
     
     @Published var isLoading: Bool = false
     @Published var showLoader: Bool = false
+    @Published var isOfflineMode: Bool = false
     @Published var errorMessage: String? = nil
     
     func fetchData(for tag: String) async {
         isLoading = true
         showLoader = false
+        isOfflineMode = false
         errorMessage = nil
         
         let loaderTask = Task {
@@ -26,9 +28,18 @@ class DashboardViewModel: ObservableObject {
             }
         }
         
-        do {
-            let dashboardData = try await APIClient.shared.fetchDashboard(playerTag: tag)
-            
+        let fetchTask = Task { () -> DashboardResponse? in
+            do {
+                return try await APIClient.shared.fetchDashboard(playerTag: tag)
+            } catch {
+                print("Fetch Error inside detached task: \(error)")
+                return nil
+            }
+        }
+        
+        let response = await fetchTask.value
+        
+        if let dashboardData = response {
             self.summary = dashboardData.summary
             self.heroes = dashboardData.heroes
             self.donations = dashboardData.donations
@@ -46,8 +57,22 @@ class DashboardViewModel: ObservableObject {
             WidgetCenter.shared.reloadAllTimelines()
             #endif
             
-        } catch {
-            errorMessage = error.localizedDescription
+        } else {
+            // Error occurred, attempt to load from cache
+            let cachedSummary = WidgetDataStore.shared.load(forKey: "widget_player_summary", as: PlayerSummary.self)
+            let cachedHeroes = WidgetDataStore.shared.load(forKey: "widget_heroes", as: [Hero].self)
+            let cachedDonations = WidgetDataStore.shared.load(forKey: "widget_donations", as: DonationStats.self)
+            let cachedWar = WidgetDataStore.shared.load(forKey: "widget_war_status", as: WarStatus.self)
+            
+            if cachedSummary != nil {
+                self.summary = cachedSummary
+                self.heroes = cachedHeroes
+                self.donations = cachedDonations
+                self.warStatus = cachedWar
+                self.isOfflineMode = true
+            } else {
+                self.errorMessage = "Unable to reach server."
+            }
         }
         
         isLoading = false

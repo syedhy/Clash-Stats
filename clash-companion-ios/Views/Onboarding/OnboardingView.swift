@@ -18,7 +18,7 @@ struct OnboardingView: View {
                             .frame(width: 80, height: 80)
                             .foregroundColor(.orange)
                         
-                        Text("Clash Companion")
+                        Text("Clash Stats")
                             .font(.custom("Clash-Regular", size: 34, relativeTo: .largeTitle))
                             .fontWeight(.bold)
                         
