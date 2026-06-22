@@ -6,13 +6,15 @@ struct ClashCompanionApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if accountStore.isLoggedIn {
-                DashboardView()
-                    .environmentObject(accountStore)
-            } else {
-                OnboardingView()
-                    .environmentObject(accountStore)
+            Group {
+                if accountStore.isLoggedIn {
+                    DashboardView()
+                } else {
+                    OnboardingView()
+                }
             }
+            .environmentObject(accountStore)
+            .environment(\.font, .custom("Clash-Regular", size: 16, relativeTo: .body))
         }
     }
 }

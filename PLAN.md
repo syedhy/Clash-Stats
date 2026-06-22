@@ -1,32 +1,49 @@
-# Clash Companion - Plan
+# Clash Companion - UI Overhaul Plan
 
-This is the implementation plan for the Clash Companion iOS App & Backend.
+This document outlines the planned UI architecture and visual enhancements for the major UI Overhaul of the Clash Companion app and widgets.
 
-## Architecture Overview
-A monorepo structure containing two main folders:
-- `/clash-companion-ios`: Native iOS App (SwiftUI, WidgetKit, App Groups, Keychain, URLSession).
-- `/clash-companion-server`: Node.js + TypeScript backend (Express) for secure API calls and caching.
+## 1. Global Visual Language
+*   **Theme:** Adopt a more premium, "Clash-inspired" aesthetic but keeping it sleek and modern.
+*   **Typography:** Use a bold, game-style custom font for headers (similar to Supercell Magic font) and a clean, legible sans-serif for stats and body copy.
+*   **Colors & Gradients:** 
+    *   Gold/Elixir/Dark Elixir color themes for progression rings and highlights.
+    *   Dark Mode first design, utilizing deep blues and dark greys to make vivid game assets pop.
 
-## App Screens
-1. **Onboarding Screen (3 steps)**: Intro, connection explanation, login form (Player Tag + API Token).
-2. **Dashboard Screen**: Connected player info, clan, war status, hero progress, and donation stats.
+## 2. Main Dashboard Evolution
+*   **Modular "Cards":** Break the current long scrolling list into interactive, tap-able cards.
+*   **Hero Headers:** The top of the dashboard will feature a prominent player banner showcasing the current League Badge and highest level Hero/Pet.
+*   **Dynamic Backgrounds:** Backgrounds will subtly change based on whether it is daytime or nighttime, or based on the player's Town Hall theme.
 
-## Backend Endpoints
-- `POST /api/auth/verify`: Verifies player tag and token.
-- `GET /api/player/:playerTag/summary`: Overall player & clan info.
-- `GET /api/player/:playerTag/heroes`: Hero levels & progress.
-- `GET /api/player/:playerTag/donations`: Donation stats & mood.
-- `GET /api/player/:playerTag/war`: Widget-friendly war state and countdowns.
+## 3. Interactive Detail Menus
+Instead of displaying all information on one screen, tapping a module will push a new Detailed View:
 
-## Data Models (iOS)
-- `PlayerSummary`, `Hero`, `DonationStats`, `WarStatus` (All Codable)
+### War Status Detail View
+*   **Trigger:** Tapping the "War Status" or "CWL" card.
+*   **Features:**
+    *   Live countdown timer emphasizing "Time Left in Phase".
+    *   Side-by-side comparison of Our Clan vs Opponent (Stars, Destruction %).
+    *   Player's specific attacks used/left, visualized with cool sword icons.
 
-## Widget List
-1. **War Attack Reminder Widget**: Shows war state, attacks left, stars, time left.
-2. **Hero Levels Widget**: Shows overall progress percentage or up to 4 heroes' progress.
-3. **Donation Tracker Widget**: Shows donated, received, balance, and mood text.
+### Laboratory & Troops Detail View
+*   **Trigger:** Tapping the "Completion Progress" or "Troops" section.
+*   **Features:**
+    *   A grid view of all unlocked troops, spells, and siege machines.
+    *   Visual indicators (e.g., green glowing max-level badges) for fully upgraded units.
+    *   Filtering by Elixir vs Dark Elixir troops.
 
-## Known API Limitations
-- Widgets cannot guarantee exact 30-minute refresh times; iOS dynamically controls the schedule.
-- War data may be hidden if the clan's war log is set to private.
-- The Clash API developer key requires IP whitelisting.
+### Heroes & Pets Detail View
+*   **Trigger:** Tapping the "Heroes" section.
+*   **Features:**
+    *   Large, high-resolution renders of the Heroes.
+    *   Equipment assignments visualized clearly below each Hero.
+    *   Pet assignments linked to their respective Heroes with chain graphics.
+
+## 4. Widget Enhancements
+*   **Dynamic Assets:** Include Hero and Troop images within the widgets to make them visually distinct on the iOS Home Screen.
+*   **Live Timers:** Implement timeline-based live countdowns for War Ends/Starts directly in the Widget UI.
+*   **Multiple Configurations:** Allow the user to configure widgets to focus solely on War, solely on builder base, or a compact summary of everything.
+
+## 5. Micro-Animations
+*   **Loading States:** Replace standard iOS loaders with custom animations (e.g., a bouncing Barbarian or spinning Elixir drop).
+*   **Progress Rings:** Animate progress rings filling up when the dashboard loads.
+*   **Transitions:** Smooth hero-style transitions when tapping a card to open its detail view.

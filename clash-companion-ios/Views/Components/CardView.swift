@@ -17,7 +17,7 @@ struct CardView<Content: View>: View {
                 Image(systemName: icon)
                     .foregroundColor(.orange)
                 Text(title)
-                    .font(.headline)
+                    .font(.custom("Clash-Regular", size: 18))
                     .foregroundColor(.primary)
                 Spacer()
             }

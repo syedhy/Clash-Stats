@@ -19,17 +19,17 @@ struct OnboardingView: View {
                             .foregroundColor(.orange)
                         
                         Text("Clash Companion")
-                            .font(.largeTitle)
+                            .font(.custom("Clash-Regular", size: 34, relativeTo: .largeTitle))
                             .fontWeight(.bold)
                         
                         Text("Cute widgets for wars, heroes, and donations")
-                            .font(.title3)
+                            .font(.custom("Clash-Regular", size: 20, relativeTo: .title3))
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal)
                         
                         Text("This app uses the official Clash of Clans API.")
-                            .font(.footnote)
+                            .font(.custom("Clash-Regular", size: 13, relativeTo: .footnote))
                             .foregroundColor(.gray)
                             .padding(.top)
                     }
@@ -42,23 +42,23 @@ struct OnboardingView: View {
                             .foregroundColor(.orange)
                         
                         Text("Connection Setup")
-                            .font(.largeTitle)
+                            .font(.custom("Clash-Regular", size: 34, relativeTo: .largeTitle))
                             .fontWeight(.bold)
                         
                         Text("To verify your account, you will need your Player Tag and the API Token found in the Clash of Clans Settings.")
-                            .font(.body)
+                            .font(.custom("Clash-Regular", size: 17, relativeTo: .body))
                             .multilineTextAlignment(.center)
                             .padding(.horizontal)
                         
                         Text("The token is only used once for verification.")
-                            .font(.footnote)
+                            .font(.custom("Clash-Regular", size: 13, relativeTo: .footnote))
                             .foregroundColor(.gray)
                             .padding(.top)
                     }
                 } else {
                     VStack(spacing: 20) {
                         Text("Link Village")
-                            .font(.largeTitle)
+                            .font(.custom("Clash-Regular", size: 34, relativeTo: .largeTitle))
                             .fontWeight(.bold)
                         
                         TextField("Player Tag (e.g. #ABC123)", text: $viewModel.playerTag)
@@ -72,7 +72,7 @@ struct OnboardingView: View {
                         if let error = viewModel.errorMessage {
                             Text(error)
                                 .foregroundColor(.red)
-                                .font(.caption)
+                                .font(.custom("Clash-Regular", size: 12, relativeTo: .caption))
                         }
                     }
                     .padding(.horizontal, 32)
@@ -98,7 +98,7 @@ struct OnboardingView: View {
                             .cornerRadius(12)
                     } else {
                         Text(step < 3 ? "Next" : "Connect")
-                            .font(.headline)
+                            .font(.custom("Clash-Regular", size: 17, relativeTo: .headline))
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()

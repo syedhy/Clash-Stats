@@ -15,6 +15,7 @@
 		4687DA50FA3F1A1A09ADCA5F /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A58C48D73C35D81E62301A /* Models.swift */; };
 		47284F50AC4BF160C5A1B488 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1D7A1C38907B68025BA7A6 /* OnboardingViewModel.swift */; };
 		4C8331E8F67CAEEC32EB59B6 /* ClashCompanionWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 993F47C560F157A0D5B55C3A /* ClashCompanionWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4D9A2789EF5396096FB0A3A4 /* ClashRegular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 823809C0155E4E530B74A2BE /* ClashRegular.otf */; };
 		53AA81C0A21DFE2FDF229658 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918E90F2209BB0B0B89F87CA /* OnboardingView.swift */; };
 		72B54C45D2437F6F4564B09E /* WidgetDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B310E18EC0A0EBC48D74FACD /* WidgetDataStore.swift */; };
 		7BAE713A7801D7AEFF765883 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBBEC99954E72AB1ABA7F2C /* APIError.swift */; };
@@ -32,6 +33,7 @@
 		E1862BF50F0073BD750325C9 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF8B0528D0BA1FD9C203571 /* CardView.swift */; };
 		F47389D6F19596D7C119A211 /* WidgetDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B310E18EC0A0EBC48D74FACD /* WidgetDataStore.swift */; };
 		F53EEF2E788E05E385423A81 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E68BB2984C45D2615CC4C04 /* APIClient.swift */; };
+		FB3C43213EC23B19CCF66877 /* ClashRegular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 823809C0155E4E530B74A2BE /* ClashRegular.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,11 +62,13 @@
 
 /* Begin PBXFileReference section */
 		08F5A002D5CB582341FA3A7A /* DonationWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonationWidget.swift; sourceTree = "<group>"; };
+		21105EDBA74568C4EDC44152 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		31BC2D4FDDA7D601BC3152EB /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
 		37CACCF8088E0B80DCB26207 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		3E68BB2984C45D2615CC4C04 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		4F1D7A1C38907B68025BA7A6 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		7EF8B0528D0BA1FD9C203571 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		823809C0155E4E530B74A2BE /* ClashRegular.otf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; path = ClashRegular.otf; sourceTree = "<group>"; };
 		90F0AF0A6F8C9B105294B1FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		918E90F2209BB0B0B89F87CA /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		993F47C560F157A0D5B55C3A /* ClashCompanionWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ClashCompanionWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +92,15 @@
 				37CACCF8088E0B80DCB26207 /* DashboardView.swift */,
 			);
 			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		079E642A3C039309D04899E5 /* ClashCompanion */ = {
+			isa = PBXGroup;
+			children = (
+				21105EDBA74568C4EDC44152 /* Info.plist */,
+			);
+			name = ClashCompanion;
+			path = ClashCompanion;
 			sourceTree = "<group>";
 		};
 		34AD8C5A9533EBDE1044E10E /* Products */ = {
@@ -147,6 +160,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		8B21E0FB1674DBF5DB7AC00B /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				823809C0155E4E530B74A2BE /* ClashRegular.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		9560C32BC0398CAEE5A47C43 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -176,6 +197,8 @@
 				52802F4D07442501264658DA /* Views */,
 				6A7BAC06D5FB9FC47AF9D9EB /* Widgets */,
 				34AD8C5A9533EBDE1044E10E /* Products */,
+				8B21E0FB1674DBF5DB7AC00B /* Fonts */,
+				079E642A3C039309D04899E5 /* ClashCompanion */,
 			);
 			sourceTree = "<group>";
 		};
@@ -196,14 +219,13 @@
 			buildConfigurationList = EDBAC1CFC9872E2A29519DC9 /* Build configuration list for PBXNativeTarget "ClashCompanionWidgets" */;
 			buildPhases = (
 				0BC930CA764C005ED6E11603 /* Sources */,
+				8B89A0AD0F9459566A72936C /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = ClashCompanionWidgets;
-			packageProductDependencies = (
-			);
 			productName = ClashCompanionWidgets;
 			productReference = 993F47C560F157A0D5B55C3A /* ClashCompanionWidgets.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -222,8 +244,6 @@
 				C7091DF4EEF0CA452CF29D10 /* PBXTargetDependency */,
 			);
 			name = ClashCompanion;
-			packageProductDependencies = (
-			);
 			productName = ClashCompanion;
 			productReference = C4A6C9780D92064FA2D8446F /* ClashCompanion.app */;
 			productType = "com.apple.product-type.application";
@@ -245,7 +265,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6BC06770177AEE890F1D6F18 /* Build configuration list for PBXProject "ClashCompanion" */;
+			buildConfigurationList = 6BC06770177AEE890F1D6F18 /* Build configuration list for PBXProject "Clash Companion" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -271,6 +291,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				980AE5ECBC6C9663FFF7AC63 /* Assets.xcassets in Resources */,
+				FB3C43213EC23B19CCF66877 /* ClashRegular.otf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B89A0AD0F9459566A72936C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4D9A2789EF5396096FB0A3A4 /* ClashRegular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +365,7 @@
 				DEVELOPMENT_TEAM = K554G79ZZY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ClashCompanion/Info.plist;
 				INFOPLIST_KEY_NSAppTransportSecurity = "<dict><key>NSAllowsArbitraryLoads</key><true/></dict>";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -425,6 +455,7 @@
 				DEVELOPMENT_TEAM = K554G79ZZY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ClashCompanion/Info.plist;
 				INFOPLIST_KEY_NSAppTransportSecurity = "<dict><key>NSAllowsArbitraryLoads</key><true/></dict>";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -560,7 +591,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		6BC06770177AEE890F1D6F18 /* Build configuration list for PBXProject "ClashCompanion" */ = {
+		6BC06770177AEE890F1D6F18 /* Build configuration list for PBXProject "Clash Companion" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4EF6C062F5DD0F12763ECB79 /* Debug */,

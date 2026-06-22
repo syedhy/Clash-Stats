@@ -11,11 +11,20 @@ class DashboardViewModel: ObservableObject {
     @Published var completionProgress: CompletionProgress?
     
     @Published var isLoading: Bool = false
+    @Published var showLoader: Bool = false
     @Published var errorMessage: String? = nil
     
     func fetchData(for tag: String) async {
         isLoading = true
+        showLoader = false
         errorMessage = nil
+        
+        let loaderTask = Task {
+            try? await Task.sleep(nanoseconds: 300_000_000) // 0.3 seconds
+            if !Task.isCancelled && self.isLoading {
+                self.showLoader = true
+            }
+        }
         
         do {
             let dashboardData = try await APIClient.shared.fetchDashboard(playerTag: tag)
@@ -42,5 +51,7 @@ class DashboardViewModel: ObservableObject {
         }
         
         isLoading = false
+        showLoader = false
+        loaderTask.cancel()
     }
 }
