@@ -24,19 +24,40 @@ struct ClashTimelineProvider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<ClashWidgetEntry>) -> ()) {
-        // Fetch from App Group (latest data from app)
-        let warStatus = WidgetDataStore.shared.load(forKey: "widget_war_status", as: WarStatus.self)
-        let heroes = WidgetDataStore.shared.load(forKey: "widget_heroes", as: [Hero].self)
-        let donations = WidgetDataStore.shared.load(forKey: "widget_donations", as: DonationStats.self)
-        
-        let entry = ClashWidgetEntry(date: Date(), warStatus: warStatus, heroes: heroes, donations: donations)
-        
-        // Refresh policy: Request a refresh roughly every 30 minutes
-        // iOS will dynamically schedule this based on user behavior and battery.
-        let nextRefresh = Calendar.current.date(byAdding: .minute, value: 30, to: Date())!
-        let timeline = Timeline(entries: [entry], policy: .after(nextRefresh))
-        
-        completion(timeline)
+        Task {
+            // Default to cached data
+            var warStatus = WidgetDataStore.shared.load(forKey: "widget_war_status", as: WarStatus.self)
+            var heroes = WidgetDataStore.shared.load(forKey: "widget_heroes", as: [Hero].self)
+            var donations = WidgetDataStore.shared.load(forKey: "widget_donations", as: DonationStats.self)
+            
+            // Try fetching live data if we have a player tag
+            if let playerTag = WidgetDataStore.shared.playerTag {
+                do {
+                    async let fetchedWar = try APIClient.shared.fetchWarStatus(playerTag: playerTag)
+                    async let fetchedHeroes = try APIClient.shared.fetchHeroLevels(playerTag: playerTag)
+                    async let fetchedDonations = try APIClient.shared.fetchDonationStats(playerTag: playerTag)
+                    
+                    let (war, hr, don) = try await (fetchedWar, fetchedHeroes, fetchedDonations)
+                    warStatus = war
+                    heroes = hr
+                    donations = don
+                    
+                    // Update cache
+                    WidgetDataStore.shared.save(war, forKey: "widget_war_status")
+                    WidgetDataStore.shared.save(hr, forKey: "widget_heroes")
+                    WidgetDataStore.shared.save(don, forKey: "widget_donations")
+                } catch {
+                    print("Widget fetch error, falling back to cache: \(error)")
+                }
+            }
+            
+            let entry = ClashWidgetEntry(date: Date(), warStatus: warStatus, heroes: heroes, donations: donations)
+            
+            let nextRefresh = Calendar.current.date(byAdding: .minute, value: 30, to: Date())!
+            let timeline = Timeline(entries: [entry], policy: .after(nextRefresh))
+            
+            completion(timeline)
+        }
     }
     
     // Mocks for placeholder/preview
@@ -46,10 +67,10 @@ struct ClashTimelineProvider: TimelineProvider {
     
     private func mockHeroes() -> [Hero] {
         [
-            Hero(name: "Archer Queen", level: 78, maxLevel: 95, village: "home", equipment: nil),
-            Hero(name: "Barbarian King", level: 74, maxLevel: 95, village: "home", equipment: nil),
-            Hero(name: "Grand Warden", level: 52, maxLevel: 70, village: "home", equipment: nil),
-            Hero(name: "Royal Champion", level: 28, maxLevel: 45, village: "home", equipment: nil)
+            Hero(name: "Archer Queen", level: 78, maxLevel: 95, village: "home", iconUrl: nil, equipment: nil),
+            Hero(name: "Barbarian King", level: 74, maxLevel: 95, village: "home", iconUrl: nil, equipment: nil),
+            Hero(name: "Grand Warden", level: 52, maxLevel: 70, village: "home", iconUrl: nil, equipment: nil),
+            Hero(name: "Royal Champion", level: 28, maxLevel: 45, village: "home", iconUrl: nil, equipment: nil)
         ]
     }
     

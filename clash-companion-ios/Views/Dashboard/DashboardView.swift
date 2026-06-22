@@ -3,6 +3,7 @@ import SwiftUI
 struct DashboardView: View {
     @EnvironmentObject var accountStore: AccountStore
     @StateObject private var viewModel = DashboardViewModel()
+    @State private var showingSettings = false
     
     var body: some View {
         NavigationView {
@@ -65,9 +66,18 @@ struct DashboardView: View {
                 .padding()
             }
             .navigationTitle("Dashboard")
-            .navigationBarItems(trailing: Button("Log Out") {
-                accountStore.logout()
-            })
+            .navigationBarItems(
+                leading: Button(action: { showingSettings = true }) {
+                    Image(systemName: "gearshape.fill")
+                        .foregroundColor(.primary)
+                },
+                trailing: Button("Log Out") {
+                    accountStore.logout()
+                }
+            )
+            .sheet(isPresented: $showingSettings) {
+                SettingsView()
+            }
             .background(Color(UIColor.systemGroupedBackground).edgesIgnoringSafeArea(.all))
             .refreshable {
                 if let tag = accountStore.playerTag {
@@ -95,10 +105,14 @@ struct DashboardView: View {
                     Spacer()
                     if let leagueUrl = summary.leagueIconUrl, let url = URL(string: leagueUrl) {
                         VStack {
-                            AsyncImage(url: url) { image in
-                                image.resizable().scaledToFit()
-                            } placeholder: {
-                                ProgressView()
+                            AsyncImage(url: url) { phase in
+                                if let image = phase.image {
+                                    image.resizable().scaledToFit()
+                                } else if phase.error != nil {
+                                    Image(systemName: "photo").foregroundColor(.secondary)
+                                } else {
+                                    ProgressView()
+                                }
                             }
                             .frame(width: 40, height: 40)
                             
@@ -197,7 +211,7 @@ struct DashboardView: View {
                             .foregroundColor(.secondary)
                     }
                     
-                    if let phaseEndsAt = war.phaseEndsAt, let date = ISO8601DateFormatter().date(from: phaseEndsAt) {
+                    if let date = war.parsedPhaseEndsAt {
                         Text("Ends: \(date, style: .timer)")
                             .font(.caption)
                             .foregroundColor(.red)
@@ -215,6 +229,18 @@ struct DashboardView: View {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
                     ForEach(heroes, id: \.name) { hero in
                         VStack(alignment: .leading) {
+                            if let urlStr = hero.iconUrl, let url = URL(string: urlStr) {
+                                AsyncImage(url: url) { phase in
+                                    if let image = phase.image {
+                                        image.resizable().scaledToFit()
+                                    } else if phase.error != nil {
+                                        Image(systemName: "photo").foregroundColor(.secondary)
+                                    } else {
+                                        ProgressView()
+                                    }
+                                }
+                                .frame(width: 40, height: 40)
+                            }
                             Text(hero.name).font(.caption).bold().lineLimit(1)
                             Text("Lvl \(hero.level)/\(hero.maxLevel)")
                                 .font(.caption2)
@@ -270,6 +296,14 @@ struct DashboardView: View {
                     HStack(spacing: 15) {
                         ForEach(lab.troops, id: \.name) { troop in
                             VStack {
+                                if let urlStr = troop.iconUrl, let url = URL(string: urlStr) {
+                                    AsyncImage(url: url) { phase in
+                                        if let image = phase.image { image.resizable().scaledToFit() }
+                                        else if phase.error != nil { Image(systemName: "photo").foregroundColor(.secondary) }
+                                        else { ProgressView() }
+                                    }
+                                        .frame(width: 30, height: 30)
+                                }
                                 Text(troop.name).font(.caption).lineLimit(1).frame(width: 60)
                                 Text("Lvl \(troop.level)").font(.caption2).foregroundColor(troop.level == troop.maxLevel ? .orange : .secondary)
                             }
@@ -282,6 +316,14 @@ struct DashboardView: View {
                     HStack(spacing: 15) {
                         ForEach(lab.spells, id: \.name) { spell in
                             VStack {
+                                if let urlStr = spell.iconUrl, let url = URL(string: urlStr) {
+                                    AsyncImage(url: url) { phase in
+                                        if let image = phase.image { image.resizable().scaledToFit() }
+                                        else if phase.error != nil { Image(systemName: "photo").foregroundColor(.secondary) }
+                                        else { ProgressView() }
+                                    }
+                                        .frame(width: 30, height: 30)
+                                }
                                 Text(spell.name).font(.caption).lineLimit(1).frame(width: 60)
                                 Text("Lvl \(spell.level)").font(.caption2).foregroundColor(spell.level == spell.maxLevel ? .cyan : .secondary)
                             }
@@ -298,6 +340,14 @@ struct DashboardView: View {
                 HStack(spacing: 15) {
                     ForEach(pets, id: \.name) { pet in
                         VStack {
+                            if let urlStr = pet.iconUrl, let url = URL(string: urlStr) {
+                                AsyncImage(url: url) { phase in
+                                    if let image = phase.image { image.resizable().scaledToFit() }
+                                    else if phase.error != nil { Image(systemName: "photo").foregroundColor(.secondary) }
+                                    else { ProgressView() }
+                                }
+                                    .frame(width: 30, height: 30)
+                            }
                             Text(pet.name).font(.caption).lineLimit(1).frame(width: 60)
                             Text("Lvl \(pet.level)").font(.caption2).foregroundColor(pet.level == pet.maxLevel ? .purple : .secondary)
                         }
@@ -352,25 +402,56 @@ struct CircularProgressRing: View {
     let color: Color
     
     var body: some View {
-        VStack(spacing: 10) {
+        VStack {
             ZStack {
                 Circle()
-                    .stroke(color.opacity(0.2), lineWidth: 8)
-                Circle()
-                    .trim(from: 0, to: CGFloat(percentage))
-                    .stroke(color, style: StrokeStyle(lineWidth: 8, lineCap: .round))
-                    .rotationEffect(.degrees(-90))
-                    .animation(.easeOut(duration: 1.0), value: percentage)
+                    .stroke(lineWidth: 6)
+                    .opacity(0.3)
+                    .foregroundColor(color)
                 
-                Text(String(format: "%.0f%%", percentage * 100))
+                Circle()
+                    .trim(from: 0.0, to: CGFloat(percentage / 100.0))
+                    .stroke(style: StrokeStyle(lineWidth: 6, lineCap: .round, lineJoin: .round))
+                    .foregroundColor(color)
+                    .rotationEffect(Angle(degrees: 270.0))
+                    .animation(.linear, value: percentage)
+                
+                Text(String(format: "%.0f%%", percentage))
                     .font(.caption)
                     .bold()
             }
-            .frame(width: 60, height: 60)
+            .frame(width: 50, height: 50)
             
             Text(label)
                 .font(.caption2)
                 .foregroundColor(.secondary)
+        }
+    }
+}
+
+struct SettingsView: View {
+    @Environment(\.presentationMode) var presentationMode
+    @State private var backendURL: String = WidgetDataStore.shared.backendURL ?? "http://192.168.1.17:3000/api"
+    
+    var body: some View {
+        NavigationView {
+            Form {
+                Section(header: Text("Network Settings"), footer: Text("The IP address of the Mac running the Node.js backend. Keep the /api suffix.")) {
+                    TextField("Backend URL", text: $backendURL)
+                        .keyboardType(.URL)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                }
+                
+                Button("Save") {
+                    WidgetDataStore.shared.backendURL = backendURL
+                    presentationMode.wrappedValue.dismiss()
+                }
+            }
+            .navigationTitle("Settings")
+            .navigationBarItems(trailing: Button("Close") {
+                presentationMode.wrappedValue.dismiss()
+            })
         }
     }
 }
