@@ -1,5 +1,6 @@
 import WidgetKit
 import SwiftUI
+import AppIntents
 
 struct DonationWidgetView: View {
     var entry: ClashWidgetEntry
@@ -20,6 +21,16 @@ struct DonationWidgetView: View {
             }
             
             VStack {
+                HStack {
+                    Spacer()
+                    Button(intent: RefreshIntent()) {
+                        Image(systemName: "arrow.clockwise.circle.fill")
+                            .foregroundColor(.orange.opacity(0.8))
+                            .font(.system(size: 20))
+                    }
+                    .buttonStyle(.plain)
+                    .padding(8)
+                }
                 Spacer()
                 Text("Updated at \(formattedDate)")
                     .font(.system(size: 8))

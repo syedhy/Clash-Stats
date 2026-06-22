@@ -17,6 +17,7 @@
 		53E88DABE32B9421396D0B98 /* AccountStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4A22E6A62DFF2DDA207926 /* AccountStore.swift */; };
 		55C51B90D834622935508925 /* ClashStatsWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 6CEC10D143B776C7A36F7A81 /* ClashStatsWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5C3DFD625A41E43AA1621BBC /* AccountStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4A22E6A62DFF2DDA207926 /* AccountStore.swift */; };
+		60414C684A99381D4DFAB94F /* RefreshIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08297C2B3E7DE74733FA113C /* RefreshIntent.swift */; };
 		60DA9B9CF64CA06267FAB908 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC83E15DE514BB8621BBF948 /* Models.swift */; };
 		6BFF09454A3C7849CB4C31F3 /* HeroLevelsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF8579BF6A45BF1ED7FF0F /* HeroLevelsWidget.swift */; };
 		6EA5C91D88E512C7E6A73A1C /* WarAttackWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC1D18296515BD1CEF403D6 /* WarAttackWidget.swift */; };
@@ -64,11 +65,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		08297C2B3E7DE74733FA113C /* RefreshIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshIntent.swift; sourceTree = "<group>"; };
 		12EF8579BF6A45BF1ED7FF0F /* HeroLevelsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroLevelsWidget.swift; sourceTree = "<group>"; };
 		22F90A8DDE530F2B504ACA0A /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
-		3836B37873476B4D41871540 /* Clash Stats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Clash Stats.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3836B37873476B4D41871540 /* ClashStats.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ClashStats.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BC1D18296515BD1CEF403D6 /* WarAttackWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarAttackWidget.swift; sourceTree = "<group>"; };
-		6CEC10D143B776C7A36F7A81 /* ClashStatsWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ClashStatsWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		6CEC10D143B776C7A36F7A81 /* ClashStatsWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = ClashStatsWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DCC998CE50703EDA014D998 /* ClashStatsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashStatsApp.swift; sourceTree = "<group>"; };
 		81C0E8F93B8C44D3947FC63C /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		88AA56E04F163E5E709349F4 /* ClashStatsWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashStatsWidgets.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 				88AA56E04F163E5E709349F4 /* ClashStatsWidgets.swift */,
 				A2F5CE68AE523AD1ED13F5CA /* DonationWidget.swift */,
 				12EF8579BF6A45BF1ED7FF0F /* HeroLevelsWidget.swift */,
+				08297C2B3E7DE74733FA113C /* RefreshIntent.swift */,
 				3BC1D18296515BD1CEF403D6 /* WarAttackWidget.swift */,
 				CEE99A10BF001AA35BE8F4A9 /* WidgetProvider.swift */,
 			);
@@ -166,7 +169,7 @@
 		E8E328B6F6F68F0C231CCA40 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3836B37873476B4D41871540 /* Clash Stats.app */,
+				3836B37873476B4D41871540 /* ClashStats.app */,
 				6CEC10D143B776C7A36F7A81 /* ClashStatsWidgets.appex */,
 			);
 			name = Products;
@@ -245,7 +248,7 @@
 			packageProductDependencies = (
 			);
 			productName = ClashStats;
-			productReference = 3836B37873476B4D41871540 /* Clash Stats.app */;
+			productReference = 3836B37873476B4D41871540 /* ClashStats.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -258,9 +261,11 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					86721CC99A54F8344CE1A947 = {
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					B6C4EE8EBE9C2B38FEE1BBA5 = {
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -318,6 +323,7 @@
 				6BFF09454A3C7849CB4C31F3 /* HeroLevelsWidget.swift in Sources */,
 				F6DDF45627791E2E7E6D02F2 /* KeychainStore.swift in Sources */,
 				1B830F2BBF05D8A5D7A1E92C /* Models.swift in Sources */,
+				60414C684A99381D4DFAB94F /* RefreshIntent.swift in Sources */,
 				45733FC24D7451114F1ABF2F /* SavedAccount.swift in Sources */,
 				6EA5C91D88E512C7E6A73A1C /* WarAttackWidget.swift in Sources */,
 				3317685742CFA1A1DC24D72F /* WidgetDataStore.swift in Sources */,
@@ -365,7 +371,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = K554G79ZZY;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClashStats/Info.plist;
@@ -458,7 +464,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = K554G79ZZY;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClashStats/Info.plist;
@@ -487,7 +493,7 @@
 				CODE_SIGN_ENTITLEMENTS = ClashStats.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = K554G79ZZY;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -568,7 +574,7 @@
 				CODE_SIGN_ENTITLEMENTS = ClashStats.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = K554G79ZZY;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
