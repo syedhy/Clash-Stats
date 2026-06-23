@@ -23,6 +23,7 @@
 		6EA5C91D88E512C7E6A73A1C /* WarAttackWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC1D18296515BD1CEF403D6 /* WarAttackWidget.swift */; };
 		77B3B0C943E8A98BD3C2F3DA /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2544127E9268D190D555A3 /* OnboardingViewModel.swift */; };
 		7975B9BFB1FE272C413C93E5 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC9975EA521BD70F59F3FCB /* APIError.swift */; };
+		7FBC1CEC6ABE072B83AB8B5B /* AutoRetryImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B1FE70C76C449289B770C7 /* AutoRetryImage.swift */; };
 		85A223396D2A004AF35B12F6 /* ClashStatsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DCC998CE50703EDA014D998 /* ClashStatsApp.swift */; };
 		8653024AC41CE95550C2A0AE /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11EF3563C63EE2BCA7BB539 /* APIClient.swift */; };
 		87D1733DE3FEB7951C39A95D /* Clash_Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = A720DAD71EE8E5F5861FC490 /* Clash_Regular.otf */; };
@@ -68,9 +69,9 @@
 		08297C2B3E7DE74733FA113C /* RefreshIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshIntent.swift; sourceTree = "<group>"; };
 		12EF8579BF6A45BF1ED7FF0F /* HeroLevelsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroLevelsWidget.swift; sourceTree = "<group>"; };
 		22F90A8DDE530F2B504ACA0A /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
-		3836B37873476B4D41871540 /* Clash Stats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Clash Stats.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3836B37873476B4D41871540 /* ClashStats.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ClashStats.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BC1D18296515BD1CEF403D6 /* WarAttackWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarAttackWidget.swift; sourceTree = "<group>"; };
-		6CEC10D143B776C7A36F7A81 /* ClashStatsWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ClashStatsWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		6CEC10D143B776C7A36F7A81 /* ClashStatsWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = ClashStatsWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DCC998CE50703EDA014D998 /* ClashStatsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashStatsApp.swift; sourceTree = "<group>"; };
 		81C0E8F93B8C44D3947FC63C /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		88AA56E04F163E5E709349F4 /* ClashStatsWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashStatsWidgets.swift; sourceTree = "<group>"; };
@@ -86,6 +87,7 @@
 		CEE99A10BF001AA35BE8F4A9 /* WidgetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetProvider.swift; sourceTree = "<group>"; };
 		CF4A22E6A62DFF2DDA207926 /* AccountStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountStore.swift; sourceTree = "<group>"; };
 		D4DF74F2BA1C1C80E0DB6B28 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D7B1FE70C76C449289B770C7 /* AutoRetryImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRetryImage.swift; sourceTree = "<group>"; };
 		E11EF3563C63EE2BCA7BB539 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		ECC9975EA521BD70F59F3FCB /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		F02B0C4848716941C0A30F7E /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 		24DD25D60AED89E26D518633 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				D7B1FE70C76C449289B770C7 /* AutoRetryImage.swift */,
 				81C0E8F93B8C44D3947FC63C /* CardView.swift */,
 			);
 			path = Components;
@@ -169,7 +172,7 @@
 		E8E328B6F6F68F0C231CCA40 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3836B37873476B4D41871540 /* Clash Stats.app */,
+				3836B37873476B4D41871540 /* ClashStats.app */,
 				6CEC10D143B776C7A36F7A81 /* ClashStatsWidgets.appex */,
 			);
 			name = Products;
@@ -248,7 +251,7 @@
 			packageProductDependencies = (
 			);
 			productName = ClashStats;
-			productReference = 3836B37873476B4D41871540 /* Clash Stats.app */;
+			productReference = 3836B37873476B4D41871540 /* ClashStats.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -261,9 +264,11 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					86721CC99A54F8344CE1A947 = {
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					B6C4EE8EBE9C2B38FEE1BBA5 = {
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -336,6 +341,7 @@
 				949056362D6B42D7921B1F01 /* APIClient.swift in Sources */,
 				DA72C0C439231C6809994C09 /* APIError.swift in Sources */,
 				5C3DFD625A41E43AA1621BBC /* AccountStore.swift in Sources */,
+				7FBC1CEC6ABE072B83AB8B5B /* AutoRetryImage.swift in Sources */,
 				C5FDA5AFE85F31D8C3C03DFD /* CardView.swift in Sources */,
 				85A223396D2A004AF35B12F6 /* ClashStatsApp.swift in Sources */,
 				31E5777F052D6ACAA37CC326 /* DashboardView.swift in Sources */,
@@ -369,7 +375,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = K554G79ZZY;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClashStats/Info.plist;
@@ -462,7 +468,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = K554G79ZZY;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClashStats/Info.plist;
@@ -491,7 +497,7 @@
 				CODE_SIGN_ENTITLEMENTS = ClashStats.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = K554G79ZZY;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -572,7 +578,7 @@
 				CODE_SIGN_ENTITLEMENTS = ClashStats.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = K554G79ZZY;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;

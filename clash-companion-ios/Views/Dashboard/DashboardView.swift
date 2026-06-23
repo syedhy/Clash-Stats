@@ -155,15 +155,7 @@ struct DashboardView: View {
                     Spacer()
                     if let leagueUrl = summary.leagueIconUrl, let url = URL(string: leagueUrl) {
                         VStack {
-                            AsyncImage(url: url) { phase in
-                                if let image = phase.image {
-                                    image.resizable().scaledToFit()
-                                } else if phase.error != nil {
-                                    Image(systemName: "photo").foregroundColor(.secondary)
-                                } else {
-                                    ProgressView()
-                                }
-                            }
+                            AutoRetryImage(url: url)
                             .frame(width: 40, height: 40)
                             
                             if let leagueName = summary.leagueName {
@@ -287,15 +279,7 @@ struct DashboardView: View {
                     ForEach(heroes, id: \.name) { hero in
                         VStack(alignment: .leading) {
                             if let urlStr = hero.iconUrl, let url = URL(string: urlStr) {
-                                AsyncImage(url: url) { phase in
-                                    if let image = phase.image {
-                                        image.resizable().scaledToFit()
-                                    } else if phase.error != nil {
-                                        Image(systemName: "photo").foregroundColor(.secondary)
-                                    } else {
-                                        ProgressView()
-                                    }
-                                }
+                                AutoRetryImage(url: url)
                                 .frame(width: 40, height: 40)
                             }
                             Text(hero.name).font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).bold().lineLimit(1)
@@ -354,11 +338,7 @@ struct DashboardView: View {
                         ForEach(lab.troops, id: \.name) { troop in
                             VStack {
                                 if let urlStr = troop.iconUrl, let url = URL(string: urlStr) {
-                                    AsyncImage(url: url) { phase in
-                                        if let image = phase.image { image.resizable().scaledToFit() }
-                                        else if phase.error != nil { Image(systemName: "photo").foregroundColor(.secondary) }
-                                        else { ProgressView() }
-                                    }
+                                    AutoRetryImage(url: url)
                                         .frame(width: 30, height: 30)
                                 }
                                 Text(troop.name).font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).lineLimit(1).frame(width: 60)
@@ -374,11 +354,7 @@ struct DashboardView: View {
                         ForEach(lab.spells, id: \.name) { spell in
                             VStack {
                                 if let urlStr = spell.iconUrl, let url = URL(string: urlStr) {
-                                    AsyncImage(url: url) { phase in
-                                        if let image = phase.image { image.resizable().scaledToFit() }
-                                        else if phase.error != nil { Image(systemName: "photo").foregroundColor(.secondary) }
-                                        else { ProgressView() }
-                                    }
+                                    AutoRetryImage(url: url)
                                         .frame(width: 30, height: 30)
                                 }
                                 Text(spell.name).font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).lineLimit(1).frame(width: 60)
@@ -398,11 +374,7 @@ struct DashboardView: View {
                     ForEach(pets, id: \.name) { pet in
                         VStack {
                             if let urlStr = pet.iconUrl, let url = URL(string: urlStr) {
-                                AsyncImage(url: url) { phase in
-                                    if let image = phase.image { image.resizable().scaledToFit() }
-                                    else if phase.error != nil { Image(systemName: "photo").foregroundColor(.secondary) }
-                                    else { ProgressView() }
-                                }
+                                AutoRetryImage(url: url)
                                     .frame(width: 30, height: 30)
                             }
                             Text(pet.name).font(.custom("Clash-Regular", size: 12, relativeTo: .caption)).lineLimit(1).frame(width: 60)
