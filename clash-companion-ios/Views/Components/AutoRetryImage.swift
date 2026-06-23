@@ -7,7 +7,7 @@ struct AutoRetryImage: View {
     @State private var retryCount = 0
     
     var body: some View {
-        AsyncImage(url: url, transaction: Transaction(animation: .easeInOut)) { phase in
+        AsyncImage(url: url) { phase in
             if let image = phase.image {
                 image
                     .resizable()
